@@ -1,24 +1,1477 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>This Should Be An Event</title>
+<title>Host This, Coward</title>
+<meta name="description" content="The internet's most unhinged event ideas, pinned to one wall. Find one that makes you laugh, then actually host it on Offlyn.">
+<meta property="og:title" content="Host this, coward.">
+<meta property="og:description" content="The internet's most unhinged event ideas, pinned to one wall. Find one, then actually host it.">
+<meta property="og:image" content="https://thisshouldbeanevent.com/img/closer.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/logo_ink.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { color-scheme: light dark; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    background: Canvas;
-    color: CanvasText;
-  }
-  h1 { font-size: clamp(2rem, 6vw, 4.5rem); letter-spacing: -0.03em; margin: 0; text-align: center; padding: 1rem; }
+/* Layout idea: a pinboard in Offlyn's colours. Violet hero, lavender wall, sticky notes and polaroids pinned at odd angles. */
+:root{
+  color-scheme: light;
+  --violet:#6d3bfc;
+  --violet-deep:#4b1fd6;
+  --lilac:#cbbbff;
+  --lime:#cdf56b;
+  --ink:#111014;
+  --wall:#ede7ff;
+  --white:#ffffff;
+  --soft:#5f5a6e;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--wall);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:8px}
+.hero :focus-visible,.closer :focus-visible,.sticky :focus-visible{outline-color:var(--lime)}
+[hidden]{display:none!important}
+.wrap{width:min(100%,1180px);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-weight:400;letter-spacing:-.035em;margin:0;text-wrap:balance}
+em{font-family:var(--serif);font-style:italic;letter-spacing:-.01em;font-size:1.1em}
+
+/* buttons */
+.btn{
+  border:0;border-radius:999px;padding:13px 22px;font-weight:600;font-size:15px;line-height:1.2;
+  background:var(--violet);color:#fff;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;
+  transition:transform .14s ease, background .14s ease;
+}
+.btn:hover{transform:translateY(-2px) rotate(-1.5deg)}
+.btn:active{transform:scale(.96)}
+.btn.white{background:#fff;color:var(--violet-deep)}
+.btn.glass{background:rgba(255,255,255,.18);color:#fff}
+.btn.lime{background:var(--lime);color:var(--ink)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.pale{background:rgba(17,16,20,.09);color:var(--ink)}
+.btn.lg{font-size:16px;padding:16px 28px}
+.btn.sm{font-size:13px;padding:8px 13px}
+.btn .n{font-variant-numeric:tabular-nums;background:rgba(17,16,20,.12);border-radius:999px;padding:0 8px;font-size:12px;line-height:20px}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.btn[aria-pressed="true"] .n{background:var(--lime);color:var(--ink)}
+.btn.pop{animation:pop .35s ease}
+@keyframes pop{40%{transform:scale(1.18) rotate(-4deg)}}
+
+/* polaroids */
+.pol{margin:0;background:#fff;padding:10px 10px 12px;border-radius:6px;box-shadow:0 14px 34px rgba(28,10,90,.28);transform:rotate(var(--t,3deg));transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.pol:hover{transform:rotate(0deg) scale(1.03)}
+.pol img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;background:var(--lilac)}
+.pol figcaption{font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.1;color:var(--ink);padding:9px 4px 0;text-align:center}
+.pin{position:absolute;left:50%;top:-9px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--violet);box-shadow:inset -3px -3px 0 rgba(0,0,0,.22), 0 4px 6px rgba(17,16,20,.3);z-index:2}
+.pin::after{content:"";position:absolute;left:4px;top:4px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.75)}
+
+/* hero */
+.hero{background:var(--violet);color:#fff;background-image:radial-gradient(rgba(255,255,255,.14) 1.1px, transparent 1.1px);background-size:20px 20px;position:relative}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+.logo{display:inline-flex;align-items:center;font-weight:700;font-size:25px;letter-spacing:-.04em;text-decoration:none;color:#fff}
+.logo img{height:32px;width:auto}
+.logo i{display:inline-block;width:31px;height:20px;border:3px solid currentColor;border-radius:999px;position:relative;margin-right:1px}
+.logo i::after{content:"";position:absolute;left:2px;top:2px;width:10px;height:10px;border-radius:50%;background:currentColor}
+.top nav{display:flex;align-items:center;gap:22px}
+.top nav a.link{font-weight:500;font-size:15px;text-decoration:none}
+.top nav a.link:hover{text-decoration:underline;text-underline-offset:4px}
+@media (max-width:720px){.top nav a.link{display:none}}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:18px 0 34px}
+.cue{display:flex;align-items:center;justify-content:center;gap:10px;width:max-content;max-width:100%;margin:0 auto;padding:10px 18px 30px;font-weight:700;font-size:15px;text-decoration:none;color:var(--ink)}
+.cue b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--lime);border:2.5px solid var(--ink);animation:nudge 1.3s ease-in-out infinite}
+.cue:hover span{text-decoration:underline;text-underline-offset:4px}
+@keyframes nudge{50%{transform:translateY(7px)}}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;transform:rotate(-2deg)}
+h1{font-size:clamp(50px,7.6vw,96px);line-height:.98;margin-top:18px}
+h1 em{color:var(--lime);display:inline-block;transform:rotate(-3deg);transform-origin:left bottom}
+.lede{font-size:clamp(16px,1.6vw,19px);max-width:26em;margin:24px 0 0;color:#e6dcff}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.mini{display:flex;flex-wrap:wrap;gap:8px 22px;margin:26px 0 0;padding:0;list-style:none;font-size:14px;color:#d9ccff}
+.mini b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
+
+.deck{position:relative;padding:26px 10px 0}
+.deck .pol{position:absolute;width:46%;z-index:0}
+.deck .pol.a{left:-7%;top:-4%;--t:-9deg}
+.deck .pol.b{right:-8%;bottom:8%;--t:8deg}
+.dnote{
+  position:relative;z-index:1;background:var(--lime);color:var(--ink);border-radius:8px;padding:34px 26px 24px;min-height:350px;
+  display:flex;flex-direction:column;gap:14px;transform:rotate(-2deg);box-shadow:0 26px 60px rgba(28,10,90,.42);
+  transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .2s;touch-action:pan-y;user-select:none;
+}
+.dnote::before{content:"";position:absolute;top:-14px;left:50%;width:120px;height:30px;margin-left:-60px;background:rgba(255,255,255,.55);transform:rotate(-3deg);border-radius:2px}
+.dnote.swap{transform:rotate(7deg) translateX(40px);opacity:0}
+.dtag{align-self:flex-start;background:var(--ink);color:var(--lime);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+.dtext{font-family:var(--serif);font-size:clamp(32px,3.6vw,46px);line-height:1.02;letter-spacing:-.015em;margin:0;flex:1;display:flex;align-items:center;overflow-wrap:anywhere;text-wrap:balance}
+.by{font-size:14px;overflow-wrap:anywhere;opacity:.82}
+.by a{font-weight:600;text-underline-offset:3px}
+.net{display:inline-block;border:1.5px solid currentColor;border-radius:6px;font-size:10px;font-weight:700;padding:0 5px;margin:0 5px 0 7px;vertical-align:1px}
+.drow{display:flex;flex-wrap:wrap;gap:8px}
+.drow .btn{flex:1 1 auto}
+.float{position:absolute;right:-6px;top:6px;background:#fff;color:var(--ink);border-radius:14px;padding:9px 14px;font-size:13px;font-weight:600;box-shadow:0 12px 30px rgba(17,16,20,.28);z-index:3;line-height:1.25;transform:rotate(5deg)}
+.float small{display:block;font-weight:500;font-size:11px;color:var(--soft)}
+.deck-nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:26px;font-size:14px;font-weight:500;color:#e6dcff;font-variant-numeric:tabular-nums}
+.burst{position:absolute;pointer-events:none;font-size:20px;color:var(--ink);animation:burst .7s ease-out forwards;z-index:5}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(160deg) scale(.4);opacity:0}}
+@media (max-width:920px){
+  .hero-grid{grid-template-columns:1fr;gap:54px;padding:14px 0 30px}
+  .deck .pol.a{left:-3%;top:-6%;width:38%}
+  .deck .pol.b{display:none}
+}
+
+/* marquee */
+.marquee{background:var(--lime);color:var(--ink);overflow:hidden;transform:rotate(-1.2deg) scale(1.03);margin:-22px 0 0;position:relative;z-index:2;box-shadow:0 10px 30px rgba(17,16,20,.18)}
+.track{display:flex;width:max-content;animation:slide 60s linear infinite}
+.track span{font-family:var(--serif);font-style:italic;font-size:26px;padding:10px 0;white-space:nowrap}
+.track i{font-style:normal;font-family:var(--sans);padding:0 18px;font-size:16px}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* wall */
+section{padding:84px 0}
+.wall{background-image:radial-gradient(rgba(75,31,214,.16) 1.2px, transparent 1.2px);background-size:22px 22px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin:0 0 14px}
+h2{font-size:clamp(36px,5vw,60px);line-height:1.02}
+h2 em{color:var(--violet)}
+.sub{color:var(--soft);font-size:17px;max-width:34em;margin:16px 0 0}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:44px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:0;border-radius:999px;background:#fff;color:var(--violet-deep);font-weight:600;font-size:14px;padding:9px 16px}
+.tab[aria-pressed="true"]{background:var(--violet);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:40px 30px;padding:0 4px}
+.note{
+  --tilt:0deg;position:relative;background:#fff;border-radius:6px;padding:28px 20px 18px;min-height:250px;
+  display:flex;flex-direction:column;gap:12px;transform:rotate(var(--tilt));box-shadow:0 12px 26px rgba(75,31,214,.2);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s;
+}
+.note:hover,.note:focus-within{transform:rotate(0deg) translateY(-6px) scale(1.02);box-shadow:0 22px 44px rgba(75,31,214,.3);z-index:1}
+.note.n1{background:var(--lime)}
+.note.n2{background:var(--lilac)}
+.note.n3{background:var(--violet);color:#fff}
+.note.n4{background:var(--ink);color:#fff}
+.note.n1 .pin{background:var(--ink)}
+.note.n3 .pin,.note.n4 .pin{background:var(--lime)}
+.note.n3 .btn.pale,.note.n4 .btn.pale{background:rgba(255,255,255,.18);color:#fff}
+.note.n3 .btn.pale .n,.note.n4 .btn.pale .n{background:rgba(255,255,255,.22)}
+.note.n3 .btn.go{background:var(--lime);color:var(--ink)}
+.note.n4 .btn.go{background:var(--lime);color:var(--ink)}
+.note.n1 .btn.go,.note.n2 .btn.go{background:var(--ink);color:#fff}
+.note .btn[aria-pressed="true"]{background:var(--lime);color:var(--ink)}
+.note.n1 .btn[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.badge.warn{background:var(--ink);color:#ffe566;border-color:var(--ink);text-transform:none;letter-spacing:0}
+.badge{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid currentColor;border-radius:999px;padding:2px 9px}
+.ntext{font-family:var(--serif);font-size:29px;line-height:1.04;letter-spacing:-.01em;margin:0;flex:1;overflow-wrap:anywhere}
+.ntext.s{font-size:24px}
+.nhosts{font-size:13px;font-weight:600}
+.nrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.link-btn{background:none;border:0;padding:4px 2px;font-size:12px;text-decoration:underline;opacity:.65;margin-left:auto}
+.promo{position:relative;--t:2.5deg;padding:12px 12px 16px;display:flex;flex-direction:column;gap:10px}
+.promo figcaption{font-size:24px;padding:4px 4px 0}
+.pol.promo{border:2.5px dashed var(--violet);box-shadow:none}
+.promo .btn{align-self:center}
+.empty{grid-column:1/-1;font-family:var(--serif);font-size:28px;text-align:center;padding:50px 0;color:var(--soft)}
+.more{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px}
+.more small{color:var(--soft);font-size:13px;font-variant-numeric:tabular-nums}
+.status{font-size:13px;color:var(--soft);min-height:20px;margin:16px 0 0;text-align:center}
+
+/* why offlyn */
+.white{background:#fff}
+.why{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.perks{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.perks li{background:var(--wall);border-radius:16px;padding:16px 18px}
+.perks li:nth-child(1){background:var(--lime)}
+.perks b{display:block;font-weight:400;font-size:30px;letter-spacing:-.04em;line-height:1.1}
+.perks span{color:var(--soft);font-size:14px}
+.perks li:nth-child(1) span{color:var(--ink)}
+.board{position:relative;min-height:440px}
+.board .pol{position:absolute;width:56%}
+.board .pol:nth-child(1){left:0;top:0;--t:-6deg}
+.board .pol:nth-child(2){right:0;top:16%;--t:5deg;z-index:1}
+.board .pol:nth-child(3){left:14%;bottom:0;--t:-2deg;z-index:2}
+@media (max-width:900px){.why{grid-template-columns:1fr;gap:44px}.board{min-height:400px}}
+@media (max-width:480px){.perks{grid-template-columns:1fr}.board{min-height:340px}}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;position:relative;background:#fff;border-radius:6px;padding:30px 22px 22px;box-shadow:0 12px 26px rgba(75,31,214,.18)}
+.steps li:nth-child(1){transform:rotate(-1.5deg)}
+.steps li:nth-child(2){transform:rotate(1deg);background:var(--lilac)}
+.steps li:nth-child(3){transform:rotate(-.6deg);background:var(--lime)}
+.steps li::before{content:counter(s);font-family:var(--serif);font-style:italic;font-size:64px;line-height:.9;display:block}
+.steps h3{font-size:23px;line-height:1.15;letter-spacing:-.03em;font-weight:500;margin-top:8px}
+.steps p{margin:8px 0 0;font-size:15px;opacity:.8}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* closer */
+.closer{position:relative;background:var(--ink);color:#fff;border-radius:32px;padding:clamp(40px,7vw,84px) clamp(24px,5vw,64px);text-align:center;overflow:hidden;margin:84px 0 0}
+.closer > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3}
+.closer > *:not(img){position:relative}
+.closer h2{font-size:clamp(40px,6.4vw,78px);max-width:12em;margin:0 auto}
+.closer h2 em{color:var(--lime)}
+.closer p{color:#d5d0e2;margin:18px auto 0;max-width:32em;font-size:18px}
+.closer .cta{justify-content:center}
+.foot{background:linear-gradient(180deg,#6d3bfc 0%,#8a63ff 45%,#b9a2ff 100%);color:#fff;padding:70px 0 96px;border-top:2.5px solid var(--ink)}
+.foot :focus-visible{outline-color:var(--lime)}
+.foot-top{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.22)}
+.foot-top h2{font-size:clamp(32px,4.4vw,50px);line-height:1.05}
+.foot-top h2 span{color:#d9ccff}
+.foot-top p{margin:0;color:#e6dcff;max-width:22em}
+.foot-top .cta{margin-top:16px}
+.foot-cols{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;padding:44px 0 10px}
+.foot-brand p{margin:14px 0 0;color:#e6dcff;font-size:14px;max-width:19em}
+.foot-brand img{height:34px;width:auto}
+.socials{display:flex;gap:8px;margin-top:18px}
+.socials a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-weight:700;font-size:13px;text-decoration:none}
+.socials a:hover{background:rgba(255,255,255,.32)}
+.foot .mail{color:#fff;font-weight:500}
+.foot .mail a{font-weight:600;text-underline-offset:3px}
+.foot nav{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.foot nav h3{font-size:13px;font-weight:500;letter-spacing:0;color:#d9ccff;margin-bottom:6px}
+.foot nav a{text-decoration:none;font-weight:500;font-size:15px}
+.foot nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.foot .cities a{background:rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600}
+.foot .cities a:hover{background:rgba(255,255,255,.32);text-decoration:none}
+.foot-ghost{width:min(78%,860px);margin:26px auto 0;opacity:.16}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;margin-top:26px}
+@media (max-width:860px){.foot-top{grid-template-columns:1fr}.foot-cols{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
+
+/* sticky bar */
+.sticky{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:5;background:var(--ink);color:#fff;border-radius:999px;padding:8px 8px 8px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 16px 44px rgba(17,16,20,.35);max-width:calc(100vw - 24px)}
+.sticky span{font-size:14px;font-weight:500;line-height:1.25}
+.sticky span b{color:var(--lime);font-weight:600}
+@media (max-width:560px){.sticky span small{display:none}.sticky{padding-left:16px;gap:10px}}
+
+/* dialogs */
+dialog{border:0;border-radius:24px;background:#fff;color:var(--ink);padding:26px;width:min(92vw,450px);max-height:92vh;overflow:auto;box-shadow:0 40px 90px rgba(17,16,20,.4)}
+dialog::backdrop{background:rgba(17,16,20,.66)}
+dialog h2{font-size:34px;margin:0 0 6px}
+dialog p{margin:0 0 16px;font-size:15px;color:var(--soft)}
+.field{display:flex;flex-direction:column;gap:6px;margin:0 0 14px;border:0;padding:0}
+.field label,.field legend{font-size:13px;font-weight:600;padding:0}
+.field small{font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums}
+textarea,input[type=text]{background:#f6f3ff;border:1px solid #ddd3fb;border-radius:12px;padding:11px 13px;width:100%}
+textarea{resize:none;height:96px;font-family:var(--serif);font-size:25px;line-height:1.08;background:var(--lime);border-color:var(--lime)}
+textarea::placeholder{color:rgba(17,16,20,.45)}
+.frow2{display:flex;gap:8px;align-items:stretch}
+.seg{display:flex;background:var(--wall);border-radius:12px;overflow:hidden;flex:none}
+.seg label{padding:11px 12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--violet-deep)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked + label{background:var(--violet);color:#fff}
+.seg input:focus-visible + label{outline:3px solid var(--ink);outline-offset:-3px}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.err{color:#b3123b;font-size:13px;font-weight:600;min-height:18px;margin:0 0 8px}
+#poster{width:100%;height:auto;border-radius:16px;display:block;margin-bottom:14px;max-height:52vh;object-fit:contain;background:var(--violet)}
+.share-links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.share-links .btn{flex:1 1 auto}
+.share-hint{font-size:12px!important;margin:0 0 14px!important}
+.done-pol{width:62%;margin:6px auto 22px;--t:-4deg}
+.done-actions{display:flex;flex-direction:column;gap:10px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,20px);background:var(--ink);color:#fff;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:90vw;text-align:center;z-index:10}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+
+/* ---------- look switcher ---------- */
+.look{position:fixed;left:16px;bottom:18px;z-index:6;display:flex;background:#fff;border-radius:999px;padding:4px;box-shadow:0 10px 30px rgba(17,16,20,.25);font-size:12px;font-weight:600}
+.look button{border:0;background:none;border-radius:999px;padding:7px 12px;color:var(--soft)}
+.look button[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+@media (max-width:700px){.look{bottom:76px}}
+
+/* ---------- classic look: the earlier noticeboard, set in Inter ---------- */
+body.old{--pink:#ff9add;--butter:#ffe566;--bd:2.5px solid var(--ink);background-image:radial-gradient(rgba(17,16,20,.09) 1.2px, transparent 1.2px);background-size:22px 22px}
+.old h1,.old h2,.old h3{font-weight:800;letter-spacing:-.045em}
+.old em{font-family:var(--sans);font-style:normal;font-size:1em;letter-spacing:inherit}
+.old .btn{border:var(--bd)}
+.old .btn.white,.old .btn.glass,.old .btn.pale{background:#fff;color:var(--ink)}
+.old .btn[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.old .hero{background:transparent;color:var(--ink)}
+.old .hero :focus-visible{outline-color:var(--violet)}
+.old .logo{color:var(--ink)}
+.old .chip{background:var(--ink);color:var(--lime)}
+.old h1 em{color:var(--ink);background:var(--lime);border:var(--bd);border-radius:18px;padding:0 .14em .05em;margin-top:.08em}
+.old .lede,.old .mini{color:var(--soft)}
+.old .mini b{color:var(--ink)}
+.old .deck .pol{display:none}
+.old .deck::before,.old .deck::after{content:"";position:absolute;left:10px;right:10px;top:26px;bottom:70px;border:var(--bd);border-radius:26px;background:var(--pink);transform:rotate(5deg)}
+.old .deck::after{background:var(--butter);transform:rotate(-6deg)}
+.old .dnote{background:var(--violet);color:#fff;border:var(--bd);border-radius:26px;box-shadow:none;padding:26px 24px 24px}
+.old .dnote::before{display:none}
+.old .dtag{background:var(--lime);color:var(--ink)}
+.old .dtext{font-family:var(--sans);font-weight:700;font-size:clamp(26px,3vw,38px);line-height:1.1;letter-spacing:-.035em}
+.old .dnote .btn.ink{background:var(--lime);color:var(--ink)}
+.old .float{border:var(--bd);box-shadow:none;background:var(--lime)}
+.old .deck-nav{color:var(--ink)}
+.old .marquee{background:var(--violet);color:#fff;border-top:var(--bd);border-bottom:var(--bd);box-shadow:none;margin-top:6px}
+.old .track span{font-family:var(--sans);font-style:normal;font-weight:700;font-size:21px;letter-spacing:-.02em;padding:12px 0}
+.old .track i{color:var(--lime)}
+.old .wall{background-image:none}
+.old .tab{border:var(--bd)}
+.old .tab[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.old .note{border:var(--bd);border-radius:20px;box-shadow:none}
+.old .note:hover,.old .note:focus-within{box-shadow:none}
+.old .note .pin,.old .steps .pin{width:74px;height:22px;margin-left:-37px;top:-12px;border-radius:3px;background:rgba(17,16,20,.18)!important;box-shadow:none;transform:rotate(-3deg)}
+.old .pin::after{display:none}
+.old .note.n2{background:var(--pink)}
+.old .note.n4{background:var(--butter);color:var(--ink)}
+.old .note.n4 .btn.pale{background:#fff;color:var(--ink)}
+.old .note.n4 .btn.pale .n{background:rgba(17,16,20,.12)}
+.old .note.n4 .btn.go{background:var(--ink);color:#fff}
+.old .note.n4 .btn[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.old .note.n3 .btn.pale{background:#fff;color:var(--ink)}
+.old .note.n3 .btn.pale .n{background:rgba(17,16,20,.12)}
+.old .note.n3 .btn[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.old .ntext{font-family:var(--sans);font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.03em}
+.old .ntext.s{font-size:19px}
+.old .pol{border:var(--bd);border-radius:12px;box-shadow:none}
+.old .pol figcaption{font-family:var(--sans);font-style:normal;font-weight:700;font-size:15px;letter-spacing:-.02em}
+.old .promo figcaption{font-size:19px}
+.old .pol.promo{border:2.5px dashed var(--ink);background:transparent}
+.old .board .pin{display:none}
+.old .perks{gap:16px}
+.old .perks li{border:var(--bd);border-radius:20px;padding:20px 20px 18px;background:#fff}
+.old .perks li:nth-child(1){background:var(--lime);transform:rotate(-1.2deg)}
+.old .perks li:nth-child(2){background:var(--pink);transform:rotate(.8deg)}
+.old .perks li:nth-child(3){background:var(--butter);transform:rotate(.6deg)}
+.old .perks li:nth-child(4){transform:rotate(-.8deg)}
+.old .perks b{font-weight:800;font-size:40px;letter-spacing:-.05em;line-height:1}
+.old .perks span,.old .perks li:nth-child(1) span{display:block;margin-top:10px;color:var(--ink);font-size:15px;font-weight:500;line-height:1.35}
+.old .steps li{border:var(--bd);border-radius:20px;box-shadow:none}
+.old .steps li:nth-child(2){background:var(--pink)}
+.old .steps li::before{font-family:var(--sans);font-style:normal;font-weight:800;font-size:54px;letter-spacing:-.05em}
+.old dialog{border:var(--bd)}
+.old dialog{padding:28px}
+.old dialog h2{font-size:30px;margin-bottom:8px}
+.old .field{gap:8px;margin-bottom:18px}
+.old .field label,.old .field legend{font-size:14px;font-weight:700;margin-bottom:0}
+.old .field legend{margin-bottom:8px}
+.old .field small{text-align:right;margin-top:-2px}
+.old textarea,.old input[type=text]{background:#fff;border:var(--bd);border-radius:14px;padding:12px 14px;font-size:16px;font-weight:500;min-width:0}
+.old textarea{font-family:var(--sans);font-weight:700;font-size:20px;line-height:1.2;letter-spacing:-.02em;height:104px}
+.old textarea::placeholder,.old input[type=text]::placeholder{color:#a8a2b8;font-weight:500;opacity:1}
+.old textarea:focus,.old input[type=text]:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px rgba(109,59,252,.22)}
+.old .frow2{gap:10px;flex-wrap:wrap}
+.old .frow2 input[type=text]{flex:1 1 160px}
+.old .seg{background:#fff;border:var(--bd);border-radius:14px}
+.old .seg label{padding:0 16px;color:var(--ink);font-size:14px;font-weight:700;display:flex;align-items:center;min-height:46px}
+.old .seg input:checked + label{background:var(--ink);color:var(--lime)}
+.old .seg input:focus-visible + label{outline:none}
+.old .seg:has(input:focus-visible){border-color:var(--violet);box-shadow:0 0 0 4px rgba(109,59,252,.22)}
+.old .dlg-actions{margin-top:4px}
+.grid{align-items:start}
+.old .note.n0 .btn.go{background:var(--ink);color:#fff}
+/* photo cluster: laid out in flow so the three always sit together, whatever their height */
+.board{min-height:0!important;aspect-ratio:auto}
+.board .pol{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:54%}
+.board .pol:nth-child(1){z-index:2}
+.board .pol:nth-child(2){margin-left:46%;margin-top:calc(-40.5% - 9px);z-index:3}
+.board .pol:nth-child(3){margin-left:22%;margin-top:-46px;z-index:1}
+/* phone: a sticker on the empty right side of each perk tile */
+@media (max-width:480px){
+  .old .perks li{position:relative;padding-right:98px}
+  .old .perks li::after{content:"₹";position:absolute;right:20px;top:50%;width:62px;height:62px;margin-top:-31px;border:2.5px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:28px;line-height:1;transform:rotate(12deg)}
+  .old .perks li:nth-child(2)::after{content:"";background:var(--butter) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 9v11l7 5' fill='none' stroke='%23111014' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/38px no-repeat;transform:rotate(-10deg)}
+  .old .perks li:nth-child(3)::after{content:"×3";background:var(--pink);font-size:22px;letter-spacing:-.04em;border-radius:18px;transform:rotate(9deg)}
+  .old .perks li:nth-child(4)::after{content:"✦";background:var(--lime);font-size:30px;transform:rotate(-12deg)}
+}
+
+.old .btn.pinkb{background:var(--pink);color:var(--ink)}
+.host-pol{width:64%;margin:0 auto 20px;--t:3deg}
+.done-pol{width:72%}
+.slides{position:relative;overflow:hidden;border-radius:6px;aspect-ratio:16/9;background:var(--lilac)}
+.slides .reel{position:absolute;inset:0;display:flex;transition:transform .65s cubic-bezier(.2,.8,.2,1)}
+.pol .slides img,.slides img{flex:0 0 100%;width:100%;min-width:0;height:100%;object-fit:cover;aspect-ratio:auto;border-radius:0;max-width:none}
+.sticky span{white-space:nowrap}
+.foot{padding-bottom:124px}
+.head-r{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.old .tab.pin-tab{background:var(--violet);color:#fff}
+@media (max-width:560px){.pin-tab{flex:1 1 100%;padding:12px 16px;font-size:15px;order:-1;margin-bottom:4px}}
+#done-sub .frow2 input{flex:1 1 200px}
+#done-sub .frow2 .btn{flex:1 1 auto}
+@media (max-width:920px){
+  .mini{display:none}
+  .hero-grid{gap:44px}
+  .hero .cta{gap:8px;margin-top:20px}
+  .hero .cta .btn.lg{font-size:15px;padding:13px 18px}
+  .lede{margin-top:16px}
+}
+@media (max-width:560px){.sticky span{font-size:13px}}
+.old .dnote .btn.ink[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+.old .note .btn.go[aria-pressed="true"]{background:var(--ink);color:var(--lime)}
+#done-sub .field{margin-bottom:6px}
+#done-sub .field small{text-align:left}
+#done-sub .err{min-height:0;margin:0 0 12px}
+.sub-ok{font-weight:700!important;color:var(--ink)!important;background:var(--lime);border:2.5px solid var(--ink);border-radius:14px;padding:10px 14px}
+.xclose{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:2.5px solid var(--ink);background:#fff;color:var(--ink);font-size:15px;font-weight:700;line-height:1;display:grid;place-items:center;padding:0;transition:transform .12s ease, background .12s ease}
+.xclose:hover{background:var(--lime);transform:rotate(90deg)}
+dialog h2{padding-right:46px}
+.done-pol + h2,.host-pol + h2{padding-right:0}
+.host-idea{font-weight:700;font-size:18px!important;line-height:1.25;color:var(--ink)!important;background:var(--lime);border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;letter-spacing:-.02em}
+.old .look{border:var(--bd);box-shadow:none}
+
+/* the top card changes colour with every idea */
+.old .dnote{background:var(--card,var(--violet));color:var(--cardtx,#fff)}
+.old .deck::before{background:var(--b1,var(--pink));transition:background .25s}
+.old .deck::after{background:var(--b2,var(--butter));transition:background .25s}
+.old .dnote .dtag{background:var(--tagbg,var(--lime));color:var(--tagtx,var(--ink))}
+.old .dnote .btn.ink{background:var(--gobg,var(--lime));color:var(--gotx,var(--ink))}
+
+/* ---------- motion ---------- */
+@keyframes rise{from{translate:0 22px;opacity:0}to{translate:0 0;opacity:1}}
+.hero .chip,.hero h1,.hero .lede,.hero .cta,.hero .mini,.hero .deck{animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
+.hero h1{animation-delay:.06s}.hero .lede{animation-delay:.14s}.hero .cta{animation-delay:.2s}.hero .mini{animation-delay:.26s}.hero .deck{animation-delay:.16s}
+@keyframes stamp{from{scale:1.5;rotate:-10deg;opacity:0}60%{scale:.95;opacity:1}to{scale:1;rotate:0deg;opacity:1}}
+.old h1 em{animation:stamp .5s .4s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes sway{from{rotate:-1.3deg}to{rotate:1.3deg}}
+.old .deck::before{animation:sway 6s ease-in-out infinite alternate}
+.old .deck::after{animation:sway 7.5s ease-in-out infinite alternate-reverse}
+@keyframes drop{from{translate:0 -18px;scale:.93;opacity:0}to{translate:0 0;scale:1;opacity:1}}
+.note.drop,.promo.drop{animation:drop .45s cubic-bezier(.2,.9,.3,1.25) both}
+@keyframes settle{from{translate:0 26px;scale:.97}to{translate:0 0;scale:1}}
+.settle{animation:settle .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes popin{from{scale:.93;opacity:0}to{scale:1;opacity:1}}
+dialog[open]{animation:popin .24s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes wob{from{rotate:-7deg}to{rotate:7deg}}
+.old .perks li::after{animation:wob 2.6s ease-in-out infinite alternate}
+.old .perks li:nth-child(even)::after{animation-direction:alternate-reverse}
+.float{animation:popin .3s cubic-bezier(.2,.9,.3,1.4)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important}
+  html{scroll-behavior:auto}
+  .track,.btn.pop,.burst,.cue b{animation:none}
+  .btn,.note,.dnote,.pol,.toast{transition:none}
+}
 </style>
 </head>
-<body>
-<h1>This should be an event.</h1>
+<body class="old">
+
+<div class="hero">
+  <div class="wrap">
+    <header class="top">
+      <a class="logo" href="https://offlyn.life" target="_blank" rel="noopener"><img data-p="logo_ink" alt="Offlyn" width="102" height="32"></a>
+      <nav>
+        <a class="link" href="#ideas">The wall</a>
+        <a class="link" href="#why">Why Offlyn</a>
+        <a class="link" href="https://offlyn.life/host-with-offlyn" target="_blank" rel="noopener">For Hosts</a>
+        <a class="btn white sm" href="https://offlyn.life/events/create" target="_blank" rel="noopener">Create Event on Offlyn</a>
+      </nav>
+    </header>
+
+    <div class="hero-grid">
+      <div>
+        <span class="chip">✦ Unhinged ideas. Great nights.</span>
+        <h1>Host this, <em>coward.</em></h1>
+        <p class="lede">The internet's most random event ideas, pinned to one wall. Find one that makes you laugh, then actually host it on Offlyn.</p>
+        <div class="cta">
+          <a class="btn white lg" href="https://offlyn.life/host-with-offlyn" target="_blank" rel="noopener">Host one on Offlyn →</a>
+          <button class="btn glass lg" type="button" data-open-drop>Pin your idea</button>
+        </div>
+        <ul class="mini" aria-label="Wall totals">
+          <li><b id="st-ideas">0</b> ideas pinned</li>
+          <li><b id="st-u">0</b> unhinged votes</li>
+          <li><b id="st-h">0</b> hands up to host</li>
+        </ul>
+      </div>
+
+      <div class="deck" id="deck">
+        <div class="float" id="float" hidden><span id="float-n"></span><small>want to host this</small></div>
+        <article class="dnote" id="fcard" aria-live="polite">
+          <span class="dtag" id="ftag">Loading</span>
+          <p class="dtext" id="ftext">Rounding up the unhinged ideas…</p>
+          <div class="by" id="fby"></div>
+          <div class="drow" id="frow" hidden>
+            <button class="btn pale" type="button" id="fun" aria-pressed="false">Unhinged <span class="n" id="fucount">0</span></button>
+            <button class="btn ink" type="button" id="fhost" aria-pressed="false">I'd host this</button>
+            <button class="btn pale" type="button" id="fshare">Share</button>
+          </div>
+        </article>
+        <div class="deck-nav" id="deck-nav" hidden>
+          <button class="btn glass sm" type="button" id="fprev" aria-label="Previous idea">←</button>
+          <span id="fcount"></span>
+          <button class="btn white" type="button" id="fnext">Next idea →</button>
+        </div>
+      </div>
+    </div>
+    <a class="cue" href="#ideas"><span id="cue-t">Explore all ideas</span><b aria-hidden="true">↓</b></a>
+  </div>
+</div>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="track"><span>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i></span><span>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i>Host this, coward<i>✦</i>IRL &gt; URL<i>✦</i></span></div></div>
+
+<section class="wall" id="ideas">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <p class="eyebrow">The wall</p>
+        <h2>The wall of <em>unhinged ideas.</em></h2>
+        <p class="sub">Tap Unhinged if it made you laugh. Tap "I'd host this" if you're brave. Share it if you know someone braver.</p>
+      </div>
+      <div class="head-r">
+        <div class="tabs" role="group" aria-label="Sort ideas">
+          <button class="tab" type="button" data-sort="top" aria-pressed="true">Most unhinged</button>
+          <button class="tab" type="button" data-sort="new" aria-pressed="false">Fresh</button>
+          <button class="tab" type="button" data-sort="mix" aria-pressed="false">Shuffle</button>
+        </div>
+        <button class="tab pin-tab" type="button" data-open-drop>+ Pin yours</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"><p class="empty">Rounding up the unhinged ideas…</p></div>
+    <div class="more" id="more" hidden>
+      <button class="btn lg" type="button" id="more-btn">Show me more unhinged ideas</button>
+      <small id="more-count"></small>
+    </div>
+    <p class="status" id="status" role="status"></p>
+  </div>
+</section>
+
+<section class="white" id="why">
+  <div class="wrap why">
+    <div>
+      <p class="eyebrow">Why host it on Offlyn</p>
+      <h2>Hosting is the fun part. <em>Everything else</em> is on us.</h2>
+      <ul class="perks">
+        <li><b>0%</b><span>Commission. You keep every rupee.</span></li>
+        <li><b>48 hrs</b><span>Payouts land within 48 working hours.</span></li>
+        <li><b>3 events</b><span>Host three and brand deals open up.</span></li>
+        <li><b>100+</b><span>Reward vouchers for you and your guests.</span></li>
+      </ul>
+      <div class="cta">
+        <a class="btn lg" href="https://offlyn.life/events/create" target="_blank" rel="noopener">Create your first event →</a>
+        <a class="btn pale lg" href="https://offlyn.life/host-with-offlyn" target="_blank" rel="noopener">See what hosts get</a>
+      </div>
+    </div>
+    <div class="board">
+      <figure class="pol"><span class="pin"></span><img data-p="n_room" alt=""><figcaption>a full room</figcaption></figure>
+      <figure class="pol"><span class="pin"></span><img data-p="n_laugh" alt=""><figcaption>strangers an hour ago</figcaption></figure>
+      <figure class="pol"><span class="pin"></span><img data-p="n_craft" alt=""><figcaption>one table, zero small talk</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="wall" id="how">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h2>From unhinged idea to <em>full room.</em></h2>
+      </div>
+      <a class="btn" href="https://offlyn.life/events/create" target="_blank" rel="noopener">Start hosting →</a>
+    </div>
+    <ol class="steps">
+      <li><span class="pin"></span><h3>Find your unhinged idea</h3><p>Flip through until one makes you laugh out loud. That's the one. Don't overthink it.</p></li>
+      <li><span class="pin"></span><h3>Say "I'd host this"</h3><p>Put your hand up on the ones you'd actually run. When you're ready, give it a date, a place and a price on Offlyn.</p></li>
+      <li><span class="pin"></span><h3>We do the boring half</h3><p>Tickets, payments and getting discovered are on Offlyn. You just show up and host.</p></li>
+    </ol>
+
+    <div class="closer">
+      <img data-p="closer" alt="">
+      <h2>Your most unhinged idea deserves <em>a full room.</em></h2>
+      <p>Somebody out there wants to attend Nap Club. Put it on Offlyn and find out who.</p>
+      <div class="cta">
+        <a class="btn lime lg" href="https://offlyn.life/events/create" target="_blank" rel="noopener">Create Event on Offlyn →</a>
+        <button class="btn glass lg" type="button" data-open-drop>Pin your idea</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <h2>Step outside,<br><span>the world is waiting for you.</span></h2>
+      <div>
+        <p>If it's a curated experience, it's happening on Offlyn.</p>
+        <div class="cta">
+          <a class="btn ink" href="https://offlyn.life/get-app" target="_blank" rel="noopener">Download the app</a>
+          <a class="btn white" href="https://offlyn.life/host-with-offlyn" target="_blank" rel="noopener">Host With Offlyn ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <a href="https://offlyn.life" target="_blank" rel="noopener"><img data-p="logo_white" alt="Offlyn" width="109" height="34"></a>
+        <p>Because life happens offline. Curated experiences from hosts who actually care.</p>
+        <div class="socials">
+          <a href="https://x.com/offlynlife" target="_blank" rel="noopener" aria-label="Offlyn on X">X</a>
+          <a href="https://www.instagram.com/offlyn.life" target="_blank" rel="noopener" aria-label="Offlyn on Instagram">IG</a>
+          <a href="https://www.linkedin.com/company/offlyn/" target="_blank" rel="noopener" aria-label="Offlyn on LinkedIn">in</a>
+        </div>
+        <p class="mail">Email us at <a href="mailto:contact@offlyn.club">contact@offlyn.club</a></p>
+      </div>
+      <nav aria-label="Offlyn">
+        <h3>Offlyn</h3>
+        <a href="https://offlyn.life/about" target="_blank" rel="noopener">About us</a>
+        <a href="https://offlyn.life/get-app" target="_blank" rel="noopener">Download the app</a>
+        <a href="https://offlyn.life/host-with-offlyn" target="_blank" rel="noopener">Become a host</a>
+        <a href="https://offlyn.life/blog" target="_blank" rel="noopener">Blogs</a>
+      </nav>
+      <nav aria-label="Explore events" class="cities">
+        <h3>Explore events</h3>
+        <a href="https://offlyn.life/event/events-in-bengaluru" target="_blank" rel="noopener">Bangalore</a>
+        <a href="https://offlyn.life/event/events-in-mumbai" target="_blank" rel="noopener">Mumbai</a>
+        <a href="https://offlyn.life/event/events-in-delhi" target="_blank" rel="noopener">Delhi NCR</a>
+      </nav>
+      <nav aria-label="Legal">
+        <h3>Legal</h3>
+        <a href="https://offlyn.life/terms-and-conditions" target="_blank" rel="noopener">Terms and conditions</a>
+        <a href="https://offlyn.life/privacy-policy" target="_blank" rel="noopener">Privacy policy</a>
+        <a href="https://offlyn.life/community-guidelines" target="_blank" rel="noopener">Community guidelines</a>
+      </nav>
+    </div>
+    <img class="foot-ghost" data-p="logo_white" alt="" aria-hidden="true">
+    <div class="foot-bottom"><span>© 2026 Offlyn Exp Labs Private Limited</span><span>Made with ♥ in Bengaluru</span></div>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <span>Found one you'd host? <small><b>0% commission</b> on Offlyn.</small></span>
+  <a class="btn lime sm" href="https://offlyn.life/events/create" target="_blank" rel="noopener">Create Event →</a>
+</div>
+
+<dialog id="drop" aria-labelledby="drop-h">
+  <form id="drop-form" novalidate>
+    <h2 id="drop-h">Pin your <em>idea.</em></h2>
+    <p>One line. The more unhinged it sounds, the better it usually is.</p>
+    <div class="field">
+      <label for="f-idea">The idea</label>
+      <textarea id="f-idea" maxlength="120" placeholder="A book club for people who only read the first chapter" required></textarea>
+      <small><span id="f-left">120</span> characters left</small>
+    </div>
+    <div class="field">
+      <label for="f-name">Your name (optional)</label>
+      <input type="text" id="f-name" maxlength="30" placeholder="Blank = Anonymous coward" autocomplete="given-name">
+    </div>
+    <fieldset class="field">
+      <legend>Your handle (optional)</legend>
+      <div class="frow2">
+        <div class="seg">
+          <input type="radio" name="net" id="f-ig" value="ig" checked><label for="f-ig">Instagram</label>
+          <input type="radio" name="net" id="f-x" value="x"><label for="f-x">X / Twitter</label>
+        </div>
+        <input type="text" id="f-handle" maxlength="31" placeholder="@yourhandle" autocapitalize="none" autocomplete="off" spellcheck="false" aria-label="Handle">
+      </div>
+    </fieldset>
+    <p class="err" id="f-err" role="alert"></p>
+    <div class="dlg-actions">
+      <button class="btn pale" type="button" id="drop-cancel">Never mind</button>
+      <button class="btn" type="submit" id="drop-submit">Pin it</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="done" aria-labelledby="done-h">
+  <figure class="pol done-pol"><div class="slides" data-off="2"></div><figcaption>could be your crowd</figcaption></figure>
+  <h2 id="done-h">Pinned. <em>Nice one.</em></h2>
+  <p id="done-p">It's on the wall. Now find out who's brave enough to host it.</p>
+  <form id="done-sub" novalidate>
+    <div class="field">
+      <label for="d-email">Subscribe to Offlyn</label>
+      <div class="frow2">
+        <input type="text" id="d-email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="you@example.com" maxlength="120">
+        <button class="btn" type="submit" id="d-go">Subscribe</button>
+      </div>
+      <small id="d-note">The best events in your city in your inbox, before they sell out. No spam.</small>
+    </div>
+    <p class="err" id="d-err" role="alert"></p>
+  </form>
+  <p class="sub-ok" id="done-ok" hidden>You're subscribed. We'll send the good ones.</p>
+  <div class="done-actions">
+    <button class="btn lime" type="button" id="done-share">Dare a friend to host it</button>
+    <button class="btn pinkb" type="button" id="done-host">I'd host this myself</button>
+    <button class="btn pale" type="button" id="done-close">Back to the wall</button>
+  </div>
+</dialog>
+
+<dialog id="host-dlg" aria-labelledby="host-h">
+  <figure class="pol host-pol"><div class="slides" data-off="4"></div><figcaption>started as a joke</figcaption></figure>
+  <h2 id="host-h">You'd host it? <em>Prove it.</em></h2>
+  <p class="host-idea" id="host-idea"></p>
+  <p>Put it on Offlyn in a few minutes. Pick a date, a place and a price. We handle the tickets and payments.</p>
+  <div class="done-actions">
+    <a class="btn lg" id="host-go" href="https://offlyn.life/events/create" target="_blank" rel="noopener">Create Event on Offlyn →</a>
+    <button class="btn pale" type="button" id="host-close">Not yet, just saying</button>
+  </div>
+</dialog>
+
+<dialog id="leave" aria-labelledby="leave-h">
+  <form id="leave-form" novalidate>
+    <h2 id="leave-h">Leaving already, <em>coward?</em></h2>
+    <p id="leave-p">Get the best events in your city in your inbox, before they sell out. No spam.</p>
+    <div id="leave-fields">
+      <div class="field">
+        <label for="l-email">Your email</label>
+        <input type="text" id="l-email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="you@example.com" maxlength="120">
+      </div>
+      <p class="err" id="l-err" role="alert"></p>
+    </div>
+    <div class="done-actions">
+      <button class="btn lg" type="submit" id="leave-sub">Send me the good ones</button>
+      <a class="btn lime" id="leave-discover" href="https://offlyn.life" target="_blank" rel="noopener" data-discover>Just show me what's on this week →</a>
+      <button class="btn pale" type="button" id="leave-close">No thanks, I'm leaving</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="share-dlg" aria-labelledby="share-h">
+  <h2 id="share-h">Dare <em>someone.</em></h2>
+  <p>Send this to the friend most likely to actually do it.</p>
+  <canvas id="poster" width="1080" height="1080" role="img" aria-label="Poster of this idea"></canvas>
+  <div class="share-links">
+    <button class="btn lime" type="button" id="sh-ig">Instagram</button>
+    <a class="btn ink" id="sh-x" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener">Post on X</a>
+    <button class="btn pale" type="button" id="copy-dare">Copy the dare</button>
+    <button class="btn" type="button" id="save-poster">Save poster</button>
+  </div>
+  <p class="share-hint">Instagram opens your share sheet on a phone, or saves the poster and copies a caption on a computer. X opens with the dare text; attach the saved poster.</p>
+  <div class="dlg-actions">
+    <button class="btn pale" type="button" id="share-close">Close</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* Settings you may want to change */
+var HTC_CONFIG={
+  hostUrl:"https://offlyn.life/events/create",         // where "Create Event" buttons go
+  discoverUrl:"https://offlyn.life"                    // where "what's on this week" goes
+};
+var IMG={n_room:"img/n_room.jpg",n_laugh:"img/n_laugh.jpg",n_craft:"img/n_craft.jpg",c1:"img/c1.jpg",c2:"img/c2.jpg",c3:"img/c3.jpg",c4:"img/c4.jpg",c5:"img/c5.jpg",c6:"img/c6.jpg",closer:"img/closer.jpg",logo_ink:"img/logo_ink.png",logo_white:"img/logo_white.png"};
+</script>
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var HOST_URL = HTC_CONFIG.hostUrl;
+  var PAGE = 8;
+  var NOTE_COLORS = ["n0","n1","n2","n0","n3","n1","n2","n4"];
+  var S = {
+    db:null, uid:null, downloads:null,
+    ideaDocs:{}, voteDocs:{}, mine:{u:{},h:{},r:{}},
+    byId:{}, order:[], counts:{}, sort:"top", featured:null, sharing:null,
+    deck:[], di:0, jump:null, limit:PAGE, lastPosted:null, popId:null,
+    gotIdeas:false, canSave:true, chains:{}, base:{}, sent:{u:{},h:{},r:{}},
+    mod:{cleared:{},removed:{}}, isOwner:false, sample:null, noAI:false,
+    seenNotes:{}, dropN:0
+  };
+  var REPORT_HIDE = 3;   // reports from different people before an idea is hidden for everyone
+  var ME_LOCAL = "local";
+
+  /* crowd photos that slide past in the photo cards */
+  var CROWD=["c1","c2","c3","c4","c5","c6"];
+  function slideIndex(){ return Math.floor(Date.now()/3200); }
+  function fillSlides(w){
+    var t=document.createElement("div"); t.className="reel";
+    CROWD.concat([CROWD[0]]).forEach(function(k){ var i=document.createElement("img"); i.alt=""; i.src=IMG[k]||""; t.appendChild(i); });
+    w.textContent=""; w.appendChild(t);
+    var i=(slideIndex()+(+w.getAttribute("data-off")||0))%CROWD.length;
+    t.style.transition="none"; t.style.transform="translateX(-"+(i*100)+"%)"; w._i=i;
+    return w;
+  }
+  function tickSlides(){
+    var n=slideIndex();
+    Array.prototype.forEach.call(document.querySelectorAll(".slides"),function(w){
+      var t=w.firstChild; if(!t) return;
+      var i=(n+(+w.getAttribute("data-off")||0))%CROWD.length;
+      if(i===w._i) return;
+      t.style.transition="";
+      if(i===0 && w._i===CROWD.length-1){
+        t.style.transform="translateX(-"+(CROWD.length*100)+"%)";      // slide onto the copy of the first photo
+        setTimeout(function(){ t.style.transition="none"; t.style.transform="translateX(0%)"; },750);
+      } else {
+        t.style.transform="translateX(-"+(i*100)+"%)";
+      }
+      w._i=i;
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".slides"),fillSlides);
+  if(!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) setInterval(tickSlides,800);
+
+  function fillImgs(root){
+    Array.prototype.forEach.call((root||document).querySelectorAll("img[data-p]"),function(i){
+      var src=IMG[i.getAttribute("data-p")]; if(src && i.getAttribute("src")!==src) i.src=src;
+    });
+  }
+  fillImgs();
+  Array.prototype.forEach.call(document.querySelectorAll("[data-discover]"),function(a){ a.href=HTC_CONFIG.discoverUrl; });
+
+  /* ---------- helpers ---------- */
+  function toast(msg){
+    var t=$("toast"); t.textContent=msg; t.classList.add("on");
+    clearTimeout(toast._t); toast._t=setTimeout(function(){t.classList.remove("on");},2600);
+  }
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
+  function me(){ return S.uid || ME_LOCAL; }
+  function cleanHandle(h){ return String(h||"").trim().replace(/^@+/,"").replace(/[^A-Za-z0-9._]/g,"").slice(0,30); }
+  function profileUrl(net,h){ return (net==="x" ? "https://x.com/" : "https://www.instagram.com/") + encodeURIComponent(h); }
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function hash(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return Math.abs(h); }
+  function el(tag,cls,text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+  function setStatus(msg){ $("status").textContent=msg; }
+  function open(d){ if(d.showModal) d.showModal(); else d.setAttribute("open",""); }
+  function reduceMotion(){ return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+  var SEED_IDEAS=["A supper club where nobody is allowed to say what they do for work.", "LinkedIn post roast night. Bring your cringiest \"I'm humbled to announce\".", "A run club that runs 200 metres and then gets dosa.", "Speed dating, but you pitch your single friend. With slides.", "PowerPoint night: defend your worst opinion in 3 minutes.", "Competitive Maggi making. One packet, one burner, total judgement.", "A book club for people who only read the first chapter.", "Traffic appreciation meetup at Silk Board. Bring your own snacks.", "Bad karaoke only. Good singers will be asked to leave.", "Pottery class where you make the ugliest mug and gift it to a stranger.", "A sangeet with no wedding. Just the dancing and the buffet.", "Breakup letter open mic.", "Startup funeral. Bury your dead side project. Eulogies mandatory.", "Nap club. We meet, we sleep, we leave.", "Chai tasting with wine-tasting seriousness. \"Notes of elaichi and regret.\"", "Stranger potluck where everyone brings the one thing their mom makes best.", "Auto fare negotiation workshop. The final exam is live.", "A quiz night where the best wrong answer wins.", "Plant swap for people whose plants are dying. Support group format.", "Board game night, but only Ludo, and it gets personal.", "Sunrise rave. 6 am, filter coffee, home by 9.", "Cry club. Sad movies, tissues provided, no eye contact after.", "Crossword and croissants. No talking till the grid is done.", "A dinner where you can only order for the person on your left.", "Your ex's playlist listening party. No skipping.", "Fake award show for your friend group. The categories get personal.", "A networking event where business cards are banned and oversharing is mandatory.", "Grief circle for people whose sourdough starter died.", "Sunday dread dinner. We eat, we complain about Monday, we go home.", "Unfinished projects show and tell. Bring the guitar you never learned.", "Golgappa eating contest with live commentary.", "Slow walking club. Overtaking is frowned upon.", "A city tour where the guide makes everything up.", "Rooftop screening of everyone's worst college photos.", "Read your teenage diary out loud night.", "Bring your parents to the party. They pick the music.", "Inbox bankruptcy party. We all hit archive together.", "Paper plane championship. Office paper only.", "Blind date with a book. Wrapped books, swapped with strangers.", "Excel art class. Paint a sunset in spreadsheet cells.", "Midnight biryani crawl. Three stops, zero regrets.", "Debate night: is a samosa a sandwich?", "Silent dinner. No phones, no talking, just aggressive eye contact.", "Adult show and tell. Bring the weirdest thing you own.", "Uno tournament where the loser writes the next house rule.", "Monsoon watch party. Chai, pakoras, and the show is the rain.", "Karaoke, but only ad jingles from the 2000s.", "Resume roast. Bring yours, leave humbled.", "A dance class taught by whoever dances worst.", "Gully cricket for people who haven't run since school.", "Founder excuses open mic. \"We're pre-revenue by choice.\"", "Dog birthday party. Humans are plus-ones.", "Antakshari, but it's office teams against each other.", "Bad tattoo pitch night. Temporary ink only.", "Competitive napkin folding. Black tie optional.", "A picnic where everyone brings the same dish by accident, on purpose."];
+  var LOCAL_KEY="htc-local";
+  function emptyLocal(){ return {ideas:[],u:{},h:{},hidden:{}}; }
+  function localData(){ try{ return Object.assign(emptyLocal(), JSON.parse(localStorage.getItem(LOCAL_KEY))||{}); }catch(e){ return emptyLocal(); } }
+  function saveLocal(d){ try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(d)); }catch(e){} }
+  function reply(ok,status,data){ return Promise.resolve({ok:ok,status:status,data:data}); }
+  function withVotes(d,it){ var u=!!d.u[it.id], h=!!d.h[it.id]; return Object.assign({},it,{u:u?1:0,h:h?1:0,myU:u,myH:h}); }
+  function wallState(d){
+    var seeds=SEED_IDEAS.map(function(text,i){ return {id:"seed-"+(i+1),text:text,name:"",net:"ig",handle:"",ts:i+1,seed:true,mine:false}; });
+    var ideas=seeds.concat(d.ideas).filter(function(it){ return !d.hidden[it.id]; }).map(function(it){ return withVotes(d,it); });
+    return {ideas:ideas,subscribed:false};
+  }
+  function pinIdea(d,body){
+    var text=String(body.text||"").replace(/\s+/g," ").trim().slice(0,120);
+    if(text.length<8) return reply(false,422,{error:"Give us a bit more than that. At least 8 characters."});
+    var key=text.toLowerCase();
+    var taken=SEED_IDEAS.concat(d.ideas.map(function(it){ return it.text; })).some(function(t){ return t.toLowerCase()===key; });
+    if(taken) return reply(false,422,{error:"Someone already pinned that exact idea. Great minds."});
+    var idea={id:"local-"+Date.now().toString(36),text:text,name:String(body.name||"").trim().slice(0,30),net:body.net==="x"?"x":"ig",handle:cleanHandle(body.handle),ts:Date.now(),seed:false,mine:true};
+    d.ideas.push(idea); saveLocal(d);
+    return reply(true,201,{idea:withVotes(d,idea)});
+  }
+  function markIdea(d,id,action,body){
+    if(action==="report") d.hidden[id]=true;
+    else { var bag=body.type==="u"?d.u:d.h; if(body.on===false) delete bag[id]; else bag[id]=true; }
+    saveLocal(d);
+    return reply(true,200,{ok:true});
+  }
+  function api(method, path, body){
+    var d=localData(), mark=path.match(/^\/api\/ideas\/([^/]+)\/(vote|report)$/);
+    if(method==="GET" && path==="/api/state") return reply(true,200,wallState(d));
+    if(method==="POST" && path==="/api/ideas") return pinIdea(d,body||{});
+    if(method==="POST" && mark) return markIdea(d,decodeURIComponent(mark[1]),mark[2],body||{});
+    return reply(false,0,null);
+  }
+  function write(){ return Promise.resolve(false); }
+
+  /* ---------- data -> view model ---------- */
+  function recount(){ S.counts=S.base; }
+  function sortIds(ids){
+    if(S.sort==="mix") return shuffle(ids);
+    if(S.sort==="new") return ids.sort(function(a,b){ return S.byId[b].ts - S.byId[a].ts; });
+    shuffle(ids);
+    return ids.sort(function(a,b){ return ((S.counts[b]||{}).u||0) - ((S.counts[a]||{}).u||0); });
+  }
+  function rebuild(resort){
+    var byId={};
+    Object.keys(S.ideaDocs).forEach(function(owner){
+      (S.ideaDocs[owner]||[]).forEach(function(it){
+        if(!it || typeof it.id!=="string" || typeof it.text!=="string") return;
+        var text=it.text.trim().slice(0,120); if(!text) return;
+        if(S.mod.removed[it.id]) return;
+        var reports=(S.counts[it.id]||{}).r||0, flagged=false;
+        if(reports>=REPORT_HIDE && !S.mod.cleared[it.id]){ if(!S.isOwner) return; flagged=true; }
+        if(!flagged && S.mine.r && S.mine.r[it.id]) return;
+        byId[it.id]={
+          flagged:flagged, reports:reports,
+          id:it.id, text:text, owner:owner,
+          name:typeof it.name==="string" ? it.name.trim().slice(0,30) : "",
+          net:it.net==="x" ? "x" : "ig",
+          handle:cleanHandle(it.handle),
+          ts:Number(it.ts)||0
+        };
+      });
+    });
+    S.byId=byId;
+    if(resort || S.order.length===0){
+      var sorted=sortIds(Object.keys(byId));
+      // your own ideas lead the wall, so you can find them when you come back
+      S.order=sorted.filter(function(id){ return byId[id].owner===me(); }).concat(sorted.filter(function(id){ return byId[id].owner!==me(); }));
+    } else {
+      var kept=S.order.filter(function(id){ return byId[id]; });
+      var known={}; kept.forEach(function(id){ known[id]=1; });
+      var fresh=Object.keys(byId).filter(function(id){ return !known[id]; }).sort(function(a,b){ return byId[b].ts-byId[a].ts; });
+      S.order=fresh.concat(kept);
+    }
+    if(S.isOwner) S.order=S.order.filter(function(id){ return byId[id].flagged; }).concat(S.order.filter(function(id){ return !byId[id].flagged; }));
+    var cur=S.deck[S.di];
+    var deck=S.deck.filter(function(id){ return byId[id] && !byId[id].flagged; });
+    var inDeck={}; deck.forEach(function(id){ inDeck[id]=1; });
+    var add=Object.keys(byId).filter(function(id){ return !inDeck[id] && !byId[id].flagged; });
+    if(!deck.length){ deck=shuffle(add); }
+    else if(add.length){
+      add.sort(function(a,b){ return byId[b].ts-byId[a].ts; });
+      deck.splice.apply(deck,[deck.indexOf(cur)+1,0].concat(add));
+    }
+    S.deck=deck;
+    var ci=deck.indexOf(cur);
+    S.di = ci>=0 ? ci : Math.min(S.di, Math.max(0,deck.length-1));
+    if(S.jump && deck.indexOf(S.jump)>=0) S.di=deck.indexOf(S.jump);
+    S.jump=null;
+    S.featured=deck[S.di]||null;
+  }
+
+  /* ---------- render ---------- */
+  function byLine(it, into){
+    into.textContent="";
+    into.hidden=isSeed(it);
+    if(isSeed(it)) return;
+    into.appendChild(document.createTextNode("by " + (it.name || "Anonymous coward")));
+    if(it.handle){
+      into.appendChild(el("span","net",it.net==="x"?"X":"IG"));
+      var a=el("a",null,"@"+it.handle); a.href=profileUrl(it.net,it.handle); a.target="_blank"; a.rel="noopener";
+      into.appendChild(a);
+    }
+  }
+  function isSeed(it){ return it.owner==="offlyn-seeds"; }
+  function hostsLabel(n){ return n===1 ? "1 person wants to host this" : n+" people want to host this"; }
+  var CARD_LOOKS=[
+    {card:"var(--violet)",cardtx:"#fff",b1:"var(--pink)",b2:"var(--butter)",tagbg:"var(--lime)",tagtx:"var(--ink)",gobg:"var(--lime)",gotx:"var(--ink)"},
+    {card:"var(--lime)",cardtx:"var(--ink)",b1:"var(--violet)",b2:"var(--pink)",tagbg:"var(--ink)",tagtx:"var(--lime)",gobg:"var(--ink)",gotx:"#fff"},
+    {card:"var(--pink)",cardtx:"var(--ink)",b1:"var(--butter)",b2:"var(--violet)",tagbg:"var(--ink)",tagtx:"var(--lime)",gobg:"var(--ink)",gotx:"#fff"},
+    {card:"var(--butter)",cardtx:"var(--ink)",b1:"var(--lime)",b2:"var(--pink)",tagbg:"var(--ink)",tagtx:"var(--lime)",gobg:"var(--violet)",gotx:"#fff"}
+  ];
+  function renderFeature(){
+    var look=CARD_LOOKS[S.di%CARD_LOOKS.length], deckEl=$("deck");
+    Object.keys(look).forEach(function(k){ deckEl.style.setProperty("--"+k,look[k]); });
+    var it=S.byId[S.featured];
+    $("frow").hidden=!it;
+    $("deck-nav").hidden=!it || S.deck.length<2;
+    if(!it){
+      $("ftag").textContent=S.gotIdeas?"Empty wall":"Loading";
+      $("ftext").textContent=S.gotIdeas?"Nothing pinned yet. Be the first coward.":"Rounding up the unhinged ideas…";
+      $("fby").textContent=""; $("float").hidden=true;
+      return;
+    }
+    var c=S.counts[it.id]||{u:0,h:0};
+    $("ftag").textContent=it.owner===me() ? "✦ Your idea" : "✦ Would you host this?";
+    $("ftext").textContent=it.text;
+    byLine(it,$("fby"));
+    $("float").hidden=!c.h;
+    $("float-n").textContent=c.h===1 ? "1 person" : c.h+" people";
+    $("fun").setAttribute("aria-pressed", S.mine.u[it.id]?"true":"false");
+    $("fucount").textContent=c.u||0;
+    $("fhost").setAttribute("aria-pressed", S.mine.h[it.id]?"true":"false");
+    $("fhost").textContent=(S.mine.h[it.id]?"✓ ":"")+"I'd host this";
+    $("fcount").textContent=(S.di+1)+" of "+S.deck.length;
+  }
+  function renderStats(){
+    var u=0,h=0;
+    Object.keys(S.byId).forEach(function(id){ var c=S.counts[id]; if(c){ u+=c.u; h+=c.h; } });
+    $("st-ideas").textContent=S.order.length; $("st-ideas").parentNode.hidden=!S.order.length;
+    $("st-u").textContent=u; $("st-u").parentNode.hidden=!u;
+    $("st-h").textContent=h; $("st-h").parentNode.hidden=!h;
+  }
+  var marqueeKey="";
+  function renderMarquee(){
+    var ids=Object.keys(S.byId).sort().slice(0,14);
+    var key=ids.join("|"); if(key===marqueeKey || !ids.length) return; marqueeKey=key;
+    var track=$("track"); track.textContent="";
+    for(var k=0;k<2;k++){
+      var span=el("span");
+      ids.forEach(function(id){
+        span.appendChild(document.createTextNode(S.byId[id].text.split(/[.,:?!]/)[0]));
+        span.appendChild(el("i",null,"✦"));
+      });
+      track.appendChild(span);
+    }
+  }
+  function noteCard(it, i){
+    var c=S.counts[it.id]||{u:0,h:0};
+    var h=hash(it.id);
+    var card=el("article","note "+NOTE_COLORS[h%NOTE_COLORS.length]);
+    card.style.setProperty("--tilt",((((h>>4)%9)-4)*0.55).toFixed(2)+"deg");
+    card.dataset.id=it.id;
+    var now=Date.now(), rec=S.seenNotes[it.id];
+    if(!rec) rec=S.seenNotes[it.id]={t:now,d:(S.dropN++)*45};
+    if(now-rec.t < rec.d+480){ card.classList.add("drop"); card.style.animationDelay=(rec.d-(now-rec.t))+"ms"; }
+    card.appendChild(el("span","pin"));
+    var label = it.owner===me() ? "Yours" : (S.sort==="top" && i<3 && c.u>0 ? "Top "+(i+1) : "");
+    if(it.flagged) card.appendChild(el("span","badge warn","Removed after "+it.reports+" reports · only you see this"));
+    else if(label) card.appendChild(el("span","badge",label));
+    card.appendChild(el("p","ntext"+(it.text.length>72?" s":""),it.text));
+    var by=el("div","by"); byLine(it,by); card.appendChild(by);
+    if(c.h) card.appendChild(el("div","nhosts",hostsLabel(c.h)));
+    var row=el("div","nrow");
+    var ub=el("button","btn pale sm"+(S.popId===it.id?" pop":"")); ub.type="button"; ub.dataset.act="u";
+    ub.setAttribute("aria-pressed", S.mine.u[it.id]?"true":"false");
+    ub.appendChild(document.createTextNode("Unhinged ")); ub.appendChild(el("span","n",String(c.u||0)));
+    var hosting=!!S.mine.h[it.id];
+    var hb=el("button","btn go sm",(hosting?"✓ ":"")+"I'd host this"); hb.type="button"; hb.dataset.act="h";
+    hb.setAttribute("aria-pressed", hosting?"true":"false");
+    var sb=el("button","btn pale sm","Share"); sb.type="button"; sb.dataset.act="s";
+    row.appendChild(ub); row.appendChild(hb); row.appendChild(sb);
+    if(it.flagged){ var kb=el("button","link-btn","Put it back"); kb.type="button"; kb.dataset.act="k"; row.appendChild(kb); }
+    else if(it.owner!==me()){ var rb=el("button","link-btn","Report"); rb.type="button"; rb.dataset.act="r"; row.appendChild(rb); }
+    card.appendChild(row);
+    return card;
+  }
+  function promoTile(){
+    var t=el("figure","pol promo");
+    t.appendChild(el("span","pin"));
+    t.appendChild(fillSlides(el("div","slides")));
+    t.appendChild(el("figcaption",null,"got one more unhinged than these?"));
+    var a=el("button","btn","+ Pin your idea"); a.type="button"; a.setAttribute("data-open-drop",""); t.appendChild(a);
+    return t;
+  }
+  function renderGrid(){
+    var grid=$("grid"); grid.textContent="";
+    var n=S.order.length;
+    if(!n){
+      grid.appendChild(el("p","empty", S.gotIdeas ? "Nothing pinned yet. Be the first coward." : "Rounding up the unhinged ideas…"));
+      $("more").hidden=true;
+      return;
+    }
+    var shown=Math.min(S.limit,n);
+    S.dropN=0;
+    for(var i=0;i<shown;i++){
+      grid.appendChild(noteCard(S.byId[S.order[i]],i));
+      if(i===4) grid.appendChild(promoTile());
+    }
+    if(shown<5) grid.appendChild(promoTile());
+    fillImgs(grid);
+    S.popId=null;
+    $("more").hidden = shown>=n;
+    $("more-count").textContent="Showing "+shown+" of "+n;
+  }
+  function refresh(resort){ recount(); rebuild(resort); renderFeature(); renderStats(); renderMarquee(); renderGrid(); }
+
+  /* ---------- actions ---------- */
+  // Sends whatever changed in my votes/reports since the last sync, and updates the counts on screen straight away.
+  function saveVotes(){
+    ["u","h","r"].forEach(function(k){
+      var ids={};
+      Object.keys(S.mine[k]).forEach(function(i){ ids[i]=1; });
+      Object.keys(S.sent[k]).forEach(function(i){ ids[i]=1; });
+      Object.keys(ids).forEach(function(id){
+        var now=!!S.mine[k][id], was=!!S.sent[k][id];
+        if(now===was) return;
+        var p="/api/ideas/"+encodeURIComponent(id);
+        if(k==="r"){ if(now) api("POST",p+"/report"); return; }
+        var b=S.base[id]=S.base[id]||{u:0,h:0,r:0};
+        b[k]=Math.max(0,b[k]+(now?1:-1));
+        api("POST",p+"/vote",{type:k,on:now}).then(function(r){ if(!r.ok && r.status!==404) toast("That didn't save. Try once more."); });
+      });
+    });
+    S.sent=clone(S.mine);
+    refresh(false);
+  }
+  function saveMod(){
+    refresh(false);
+    if(S.uid) write("ideas/offlyn-mod", clone(S.mod));
+  }
+  var hostDlg=$("host-dlg"), hostPopSeen=false;
+  try{ hostPopSeen = localStorage.getItem("htc-hostpop")==="1"; }catch(e){}
+  function toggleHost(id){
+    var it=S.byId[id]; if(!it) return;
+    if(S.mine.h[id]){ delete S.mine.h[id]; saveVotes(); return; }
+    S.mine.h[id]=true; saveVotes();
+    if(!hostPopSeen && !document.querySelector("dialog[open]")){
+      hostPopSeen=true;
+      try{ localStorage.setItem("htc-hostpop","1"); }catch(e){}
+      $("host-idea").textContent="\u201C"+it.text+"\u201D";
+      open(hostDlg);
+    }
+  }
+  $("host-close").addEventListener("click",function(){ hostDlg.close(); });
+  $("host-go").addEventListener("click",function(){ hostDlg.close(); });
+  $("grid").addEventListener("click",function(e){
+    var b=e.target.closest("[data-act]"); if(!b) return;
+    var card=b.closest(".note"); var id=card && card.dataset.id; var it=S.byId[id]; if(!it) return;
+    var act=b.dataset.act;
+    if(act==="u"){ if(S.mine.u[id]) delete S.mine.u[id]; else { S.mine.u[id]=true; S.popId=id; } saveVotes(); }
+    else if(act==="h"){ toggleHost(id); }
+    else if(act==="s"){ openShare(it); }
+    else if(act==="r"){ S.mine.r[id]=true; saveVotes(); toast("Reported. Three reports and it comes off the wall."); }
+    else if(act==="k"){ S.mod.cleared[id]=true; saveMod(); toast("It's back on the wall for everyone."); }
+    else if(act==="x"){ S.mod.removed[id]=true; saveMod(); toast("Removed from the wall for everyone."); }
+  });
+  $("more-btn").addEventListener("click",function(){ S.limit+=PAGE; renderGrid(); });
+  $("fhost").addEventListener("click",function(){ toggleHost(S.featured); });
+  var moving=false;
+  function go(dir){
+    var n=S.deck.length; if(n<2||moving) return;
+    var card=$("fcard");
+    S.di=(S.di+dir+n)%n; S.featured=S.deck[S.di];
+    if(reduceMotion()){ renderFeature(); return; }
+    moving=true;
+    card.classList.add("swap");
+    setTimeout(function(){ renderFeature(); card.classList.remove("swap"); moving=false; },200);
+  }
+  $("fnext").addEventListener("click",function(){ go(1); });
+  $("fprev").addEventListener("click",function(){ go(-1); });
+  function burst(btn){
+    if(reduceMotion()) return;
+    var host=$("deck"), hb=host.getBoundingClientRect(), bb=btn.getBoundingClientRect();
+    for(var i=0;i<7;i++){
+      var s=el("span","burst","✦");
+      s.style.left=(bb.left-hb.left+bb.width/2)+"px"; s.style.top=(bb.top-hb.top)+"px";
+      var a=(Math.PI*(0.15+0.7*i/6))+Math.PI;
+      s.style.setProperty("--dx",Math.round(Math.cos(a)*90)+"px");
+      s.style.setProperty("--dy",Math.round(Math.sin(a)*90)+"px");
+      host.appendChild(s);
+      (function(n){ setTimeout(function(){ n.remove(); },750); })(s);
+    }
+  }
+  $("fun").addEventListener("click",function(){
+    var id=S.featured; if(!id) return;
+    if(S.mine.u[id]) delete S.mine.u[id]; else { S.mine.u[id]=true; burst($("fun")); }
+    saveVotes();
+  });
+  $("fshare").addEventListener("click",function(){ var it=S.byId[S.featured]; if(it) openShare(it); });
+  document.addEventListener("keydown",function(e){
+    if(document.querySelector("dialog[open]")) return;
+    if(e.target.closest && e.target.closest("input,textarea")) return;
+    if(e.key==="ArrowRight") go(1); else if(e.key==="ArrowLeft") go(-1);
+  });
+  (function swipe(){
+    var card=$("fcard"), x0=null, dx=0;
+    card.addEventListener("pointerdown",function(e){ if(e.target.closest("a,button")) return; x0=e.clientX; dx=0; });
+    card.addEventListener("pointermove",function(e){
+      if(x0===null||moving) return;
+      dx=e.clientX-x0;
+      if(Math.abs(dx)>6){ card.style.transition="none"; card.style.transform="translateX("+dx+"px) rotate("+(dx/26-2)+"deg)"; }
+    });
+    function end(){
+      if(x0===null) return;
+      var d=dx; x0=null; dx=0;
+      card.style.transition=""; card.style.transform="";
+      if(Math.abs(d)>80) go(d<0?1:-1);
+    }
+    card.addEventListener("pointerup",end);
+    card.addEventListener("pointercancel",end);
+    card.addEventListener("pointerleave",end);
+  })();
+  Array.prototype.forEach.call(document.querySelectorAll("[data-sort]"),function(b){
+    b.addEventListener("click",function(){
+      S.sort=b.dataset.sort; S.limit=PAGE;
+      Array.prototype.forEach.call(document.querySelectorAll("[data-sort]"),function(o){ o.setAttribute("aria-pressed", o===b?"true":"false"); });
+      refresh(true);
+    });
+  });
+
+  /* ---------- pin an idea ---------- */
+  var drop=$("drop"), done=$("done"), fIdea=$("f-idea");
+  document.addEventListener("click",function(e){
+    if(!e.target.closest("[data-open-drop]")) return;
+    $("f-err").textContent="";
+    open(drop);
+    fIdea.focus();
+  });
+  $("drop-cancel").addEventListener("click",function(){ drop.close(); });
+  fIdea.addEventListener("input",function(){ $("f-left").textContent=120-fIdea.value.length; });
+  /* ----- checks before an idea goes on the wall ----- */
+  var REJECT={
+    gibberish:"That reads like a keyboard smash. Give us an actual idea.",
+    sexual:"That one's a bit too unhinged, even for us. Keep it something you could put on a poster.",
+    hateful:"Not that kind of unhinged. Try one that's fun for everyone in the room.",
+    real_person:"Leave real people out of it. Pitch the event, not the person.",
+    spam:"No links, numbers or ads. Just the idea.",
+    unsafe:"That one could get someone hurt. Try a different kind of chaos.",
+    short:"Give it at least three words so people get the idea."
+  };
+  var LEET={"0":"o","1":"i","3":"e","4":"a","5":"s","7":"t","@":"a","$":"s"};
+  var BAD_EXACT=["sex","sexy","cum","anal","tits","cock","dick","pussy","nude","nudes","naked","horny","orgy","bdsm","rape","rapist","randi","chut","lund","lauda","lavda","loda","gaand","boobs","boob"];
+  var BAD_STEM=["porn","fuck","sexual","sext","masturbat","blowjob","handjob","orgasm","threesome","vagina","penis","fetish","stripper","hooker","slut","whore","bitch","molest","chutiy","chutia","gandu","bhosd","madarchod","behenchod","bhenchod","benchod"];
+  function hasBadWord(t){
+    var toks=String(t).toLowerCase().replace(/[013457@$]/g,function(c){ return LEET[c]; }).split(/[^a-z]+/).filter(Boolean);
+    var joined=toks.join("");
+    if(/threesome|foursome|blowjob|handjob|masturbat|madarchod|behenchod|bhenchod|gangbang/.test(joined)) return true;   // catches "three some", "blow job"
+    return toks.some(function(w){
+      var w2=w.replace(/(.)\1{2,}/g,"$1");
+      return BAD_EXACT.indexOf(w2)>=0 || BAD_STEM.some(function(st){ return w2.indexOf(st)===0; });
+    });
+  }
+  function looksGibberish(t){
+    if(/(.)\1{4,}/.test(t)) return true;
+    var latin=t.toLowerCase().split(/\s+/).map(function(w){ return w.replace(/[^a-z]/g,""); }).filter(Boolean);
+    if(latin.some(function(w){ return /asdf|sdfg|dfgh|fghj|hjkl|qwer|zxcv|xcvb|cvbn/.test(w) || w.length>24 || /[bcdfghjklmnpqrstvwxz]{7,}/.test(w); })) return true;
+    var big=latin.filter(function(w){ return w.length>=4; });
+    var noVowel=big.filter(function(w){ return !/[aeiouy]/.test(w); }).length;
+    return big.length>0 && noVowel/big.length>0.4;
+  }
+  function quickCheck(text){
+    if(/(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|in|co|net|org|io|me|ly|app)\b|\S+@\S+\.\S+|\d[\d\s-]{7,}\d)/i.test(text)) return REJECT.spam;
+    if(text.split(/\s+/).filter(function(w){ return /[a-zऀ-ॿ]/i.test(w); }).length<3) return REJECT.short;
+    if(looksGibberish(text)) return REJECT.gibberish;
+    if(hasBadWord(text)) return REJECT.sexual;
+    return null;
+  }
+  // The AI check only runs on ideas that look like they might need a second opinion.
+  var WATCH=/\b(strip|hot|bed|kiss|lick|touch|bod(y|ies)|wet|hard|bang|screw|hook|naught|dirty|kink|flirt|seduc|drunk|drug|weed|ganja|charas|high|smok|shots?|kill|die|dead|death|fight|punch|slap|gun|knife|blood|hate|hindu|muslim|christian|sikh|caste|dalit|brahmin|gay|lesbian|trans|fat|ugly|stupid|idiot)/i;
+  function needsAI(text){
+    if(WATCH.test(text)) return true;
+    if(/[^\x00-\x7f\u2018-\u201d\u2026]/.test(text)) return true;               // other scripts, emoji
+    if(/[a-z,] [A-Z][a-z]+ [A-Z][a-z]+/.test(text)) return true;                  // looks like a person's name mid-sentence
+    return false;
+  }
+  var checking=false;
+  $("drop-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    if(checking) return;
+    var text=fIdea.value.replace(/\s+/g," ").trim();
+    var name=$("f-name").value.trim().slice(0,30);
+    var handle=cleanHandle($("f-handle").value);
+    var err=$("f-err"), btn=$("drop-submit");
+    err.textContent="";
+    if(text.length<8){ err.textContent="Give us a bit more than that. At least 8 characters."; fIdea.focus(); return; }
+    var dupe=Object.keys(S.byId).some(function(id){ return S.byId[id].text.toLowerCase()===text.toLowerCase(); });
+    if(dupe){ err.textContent="Someone already pinned that exact idea. Great minds."; return; }
+    var bad=quickCheck(text);
+    if(bad){ err.textContent=bad; fIdea.focus(); return; }
+    if(hasBadWord(name) || hasBadWord(handle)){ err.textContent="Pick a name and handle you'd be fine seeing on a poster."; return; }
+
+    checking=true; btn.disabled=true; btn.textContent="Checking…";
+    api("POST","/api/ideas",{text:text,name:name,net:$("f-x").checked?"x":"ig",handle:handle}).then(function(r){
+      checking=false; btn.disabled=false; btn.textContent="Pin it";
+      if(!r.ok || !r.data || !r.data.idea){
+        err.textContent=(r.data && r.data.error) || "That didn't go through. Check your connection and try once more.";
+        return;
+      }
+      var item=r.data.idea;
+      var mineList=(S.ideaDocs[me()]||[]).slice(); mineList.push(item);
+      S.ideaDocs[me()]=mineList;
+      S.base[item.id]={u:0,h:0,r:0};
+      S.gotIdeas=true; S.jump=item.id; S.lastPosted=item.id;
+      refresh(false);
+      drop.close();
+      fIdea.value=""; $("f-name").value=""; $("f-handle").value=""; $("f-left").textContent="120";
+      $("done-p").textContent="It's on the wall. Now find out who's brave enough to host it.";
+      $("done-sub").hidden=S.subscribed; $("done-ok").hidden=true; $("d-err").textContent="";
+      open(done);
+      if(!S.subscribed) $("d-email").focus();
+    });
+  });
+  $("done-close").addEventListener("click",function(){ done.close(); });
+  $("done-host").addEventListener("click",function(){ var id=S.lastPosted; done.close(); if(id && !S.mine.h[id]) toggleHost(id); });
+  $("done-share").addEventListener("click",function(){ var it=S.byId[S.lastPosted]; done.close(); if(it) openShare(it); });
+
+  /* ---------- share poster ---------- */
+  var shareDlg=$("share-dlg"), logoImg=null;
+  (function(){ var i=new Image(); i.onload=function(){ logoImg=i; if(shareDlg.open && S.sharing) drawPoster(S.sharing); }; i.src=IMG.logo_white||""; })();
+  function wrap(ctx,text,maxW){
+    var words=text.split(" "), lines=[], line="";
+    words.forEach(function(w){
+      var t=line?line+" "+w:w;
+      if(ctx.measureText(t).width>maxW && line){ lines.push(line); line=w; } else line=t;
+    });
+    if(line) lines.push(line);
+    return lines;
+  }
+  function rr(ctx,x,y,w,h,r){
+    ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+  }
+  function drawPoster(it){
+    var cv=$("poster"), ctx=cv.getContext("2d"), W=1080, H=1080;
+    ctx.fillStyle="#6d3bfc"; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle="rgba(255,255,255,.14)";
+    for(var y=28;y<H;y+=42){ for(var x=28;x<W;x+=42){ ctx.beginPath(); ctx.arc(x,y,2.2,0,6.3); ctx.fill(); } }
+    ctx.textBaseline="alphabetic"; ctx.textAlign="left";
+    if(logoImg) ctx.drawImage(logoImg,84,64,logoImg.width*(54/logoImg.height),54);
+    // headline on one line: Host this, [coward.]
+    ctx.fillStyle="#fff"; ctx.font="800 78px Inter, sans-serif";
+    ctx.fillText("Host this,",84,236);
+    var hx=84+ctx.measureText("Host this, ").width;
+    ctx.save(); ctx.translate(hx,150); ctx.rotate(-.035);
+    var cwd=ctx.measureText("coward.").width;
+    rr(ctx,-8,0,cwd+36,108,22); ctx.fillStyle="#cdf56b"; ctx.fill(); ctx.lineWidth=6; ctx.strokeStyle="#111014"; ctx.stroke();
+    ctx.fillStyle="#111014"; ctx.fillText("coward.",10,82); ctx.restore();
+    // card
+    ctx.save(); ctx.translate(W/2,596);
+    ctx.save(); ctx.rotate(.045); rr(ctx,-450,-270,900,540,40); ctx.fillStyle="#ff9add"; ctx.fill(); ctx.lineWidth=6; ctx.strokeStyle="#111014"; ctx.stroke(); ctx.restore();
+    ctx.rotate(-.015);
+    rr(ctx,-450,-270,900,540,40); ctx.fillStyle="#fff"; ctx.fill(); ctx.lineWidth=6; ctx.strokeStyle="#111014"; ctx.stroke();
+    ctx.save(); ctx.rotate(-.04); ctx.fillStyle="rgba(17,16,20,.18)"; ctx.fillRect(-100,-296,200,52); ctx.restore();
+    var by=isSeed(it) ? "" : "by "+(it.name||"Anonymous coward")+(it.handle ? "  ·  "+(it.net==="x"?"X":"IG")+" @"+it.handle : "");
+    var size = it.text.length>85 ? 50 : it.text.length>48 ? 60 : 72;
+    ctx.fillStyle="#111014"; ctx.font="700 "+size+"px Inter, sans-serif";
+    var lines=wrap(ctx,it.text,780), lh=size*1.14;
+    var mid=by ? -30 : 0, y0=mid-((lines.length-1)*lh)/2+size*0.34;
+    lines.forEach(function(l,i){ ctx.fillText(l,-390,y0+i*lh); });
+    if(by){
+      ctx.font="500 30px Inter, sans-serif"; ctx.fillStyle="rgba(17,16,20,.75)";
+      ctx.fillText(wrap(ctx,by,780)[0],-390,222);
+    }
+    ctx.restore();
+    // footer
+    ctx.textAlign="center";
+    ctx.fillStyle="#fff"; ctx.font="600 40px Inter, sans-serif";
+    ctx.fillText("I dare you. Host it on Offlyn.",W/2,966);
+    ctx.fillStyle="#d9ccff"; ctx.font="400 28px Inter, sans-serif";
+    ctx.fillText("offlyn.life",W/2,1016);
+  }
+  function dareText(it){
+    return 'I dare you to host this: "'+it.text+'"'+(it.handle?" (idea by @"+it.handle+")":"")+" Host it on Offlyn, 0% commission: "+HOST_URL;
+  }
+  function openShare(it){
+    S.sharing=it;
+    var txt=encodeURIComponent(dareText(it));
+    $("sh-x").href="https://twitter.com/intent/tweet?text="+txt;
+    open(shareDlg);
+    drawPoster(it);
+    if(document.fonts && document.fonts.load){
+      Promise.all([document.fonts.load("800 78px Inter"),document.fonts.load("700 60px Inter"),document.fonts.load("500 30px Inter"),document.fonts.load("600 40px Inter"),document.fonts.load("400 28px Inter")])
+        .then(function(){ if(shareDlg.open && S.sharing===it) drawPoster(it); }, function(){});
+    }
+  }
+  $("share-close").addEventListener("click",function(){ shareDlg.close(); });
+  $("copy-dare").addEventListener("click",function(){
+    var it=S.sharing; if(!it) return;
+    var ok=function(){ toast("Copied. Go ruin someone's weekend."); };
+    var fail=function(){ toast("Couldn't copy here. Screenshot the poster instead."); };
+    try{ navigator.clipboard.writeText(dareText(it)).then(ok,fail); }catch(e){ fail(); }
+  });
+  function posterBlob(cb){ try{ $("poster").toBlob(cb,"image/png"); }catch(e){ cb(null); } }
+  function downloadBlob(blob){
+    var a=document.createElement("a"), url=URL.createObjectURL(blob);
+    a.href=url; a.download="host-this-coward.png"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); },5000);
+  }
+  $("save-poster").addEventListener("click",function(){
+    if(!S.sharing) return;
+    posterBlob(function(blob){
+      if(!blob){ toast("Couldn't make the poster. Screenshot it instead."); return; }
+      downloadBlob(blob); toast("Poster saved.");
+    });
+  });
+  // Instagram has no web share link. On phones the share sheet can hand the poster straight to Instagram;
+  // elsewhere we save the poster and copy the caption.
+  $("sh-ig").addEventListener("click",function(){
+    var it=S.sharing; if(!it) return;
+    posterBlob(function(blob){
+      if(!blob){ toast("Couldn't make the poster. Screenshot it instead."); return; }
+      var file=null; try{ file=new File([blob],"host-this-coward.png",{type:"image/png"}); }catch(e){}
+      if(file && navigator.canShare && navigator.canShare({files:[file]})){
+        navigator.share({files:[file],text:dareText(it)}).catch(function(){});
+        return;
+      }
+      downloadBlob(blob);
+      var done2=function(c){ toast(c ? "Poster saved and caption copied. Post it on Instagram." : "Poster saved. Post it on Instagram."); };
+      try{ navigator.clipboard.writeText(dareText(it)).then(function(){ done2(true); },function(){ done2(false); }); }catch(e){ done2(false); }
+    });
+  });
+  [drop,done,shareDlg,hostDlg].forEach(function(d){
+    d.addEventListener("click",function(e){ if(e.target===d) d.close(); });
+  });
+
+  /* ---------- email popup: on exit, or after a good browse ---------- */
+  S.subscribed=false;
+  try{ S.subscribed = localStorage.getItem("htc-sub")==="1"; }catch(e){}
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+  function saveEmail(email, source){
+    return api("POST","/api/subscribe",{email:email,source:source}).then(function(r){
+      if(r.ok){ S.subscribed=true; try{ localStorage.setItem("htc-sub","1"); }catch(e){} }
+      return r.ok;
+    });
+  }
+  $("done-sub").addEventListener("submit",function(e){
+    e.preventDefault();
+    var email=$("d-email").value.trim(), err=$("d-err"), btn=$("d-go");
+    if(!validEmail(email)){ err.textContent="That doesn't look like an email. Check it and try again."; $("d-email").focus(); return; }
+    err.textContent=""; btn.disabled=true;
+    saveEmail(email,"after-pin").then(function(ok){
+      btn.disabled=false;
+      if(ok){ $("done-sub").hidden=true; $("done-ok").hidden=false; }
+      else { err.textContent="Your email couldn't be saved in this view."; }
+    });
+  });
+  var leave=$("leave"), leaveSeen=false, flips=0, mores=0, t0=Date.now();
+  try{ leaveSeen = localStorage.getItem("htc-leave")==="1"; }catch(e){}
+  var LEAVE_COPY={
+    exit:{h:"Leaving already, ",em:"coward?",p:"Get the best events in your city in your inbox, before they sell out. No spam.",no:"No thanks, I'm leaving"},
+    more:{h:"Still scrolling? You have ",em:"a type.",p:"You clearly like an unhinged idea. Get the ones that turn into real events in your inbox, before they sell out. No spam.",no:"No thanks, show me more ideas"},
+    flips:{h:"Eight ideas deep. ",em:"Committed.",p:"If you like these this much, you'll like the real ones. Get the best events in your city in your inbox. No spam.",no:"No thanks, next idea"}
+  };
+  function maybeLeave(why){
+    if(leaveSeen || S.subscribed || document.querySelector("dialog[open]")) return;
+    leaveSeen=true;
+    try{ localStorage.setItem("htc-leave","1"); }catch(e){}
+    var c=LEAVE_COPY[why]||LEAVE_COPY.exit, h=$("leave-h");
+    h.textContent=c.h; h.appendChild(el("em",null,c.em));
+    $("leave-p").textContent=c.p;
+    $("leave-close").textContent=c.no;
+    open(leave);
+  }
+  document.documentElement.addEventListener("mouseleave",function(e){
+    if(e.clientY<=0 && Date.now()-t0>8000) maybeLeave("exit");
+  });
+  $("fnext").addEventListener("click",function(){ if(++flips===8) maybeLeave("flips"); });
+  $("more-btn").addEventListener("click",function(){ if(++mores===2) maybeLeave("more"); });
+  $("leave-close").addEventListener("click",function(){ leave.close(); });
+  $("leave-discover").addEventListener("click",function(){ leave.close(); });
+  leave.addEventListener("click",function(e){ if(e.target===leave) leave.close(); });
+  $("leave-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    if($("leave-fields").hidden){ leave.close(); return; }
+    var email=$("l-email").value.trim(), err=$("l-err");
+    if(!validEmail(email)){ err.textContent="That doesn't look like an email. Check it and try again."; $("l-email").focus(); return; }
+    err.textContent="";
+    var saving = saveEmail(email,"popup");
+    saving.then(function(ok){
+      $("leave-fields").hidden=true;
+      $("leave-sub").textContent="Back to the unhinged ideas";
+      $("leave-close").hidden=true;
+      if(ok){
+        $("leave-h").textContent="You're in.";
+        $("leave-p").textContent="We'll send the good ones. Meanwhile, see what's on this week.";
+      } else {
+        $("leave-h").textContent="That didn't save.";
+        $("leave-p").textContent="Your email couldn't be saved in this view. You can still see what's on this week on Offlyn.";
+      }
+    });
+  });
+
+  /* ---------- sections settle into place as they scroll into view ---------- */
+  if("IntersectionObserver" in window && !reduceMotion()){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("settle"); io.unobserve(e.target); } });
+    },{threshold:0.15});
+    Array.prototype.forEach.call(document.querySelectorAll(".perks li,.steps li,.board .pol,.closer,.foot-top,.foot-cols > *"),function(n,i){
+      n.style.animationDelay=((i%4)*70)+"ms"; io.observe(n);
+    });
+  }
+
+  /* ---------- a close button on every popup ---------- */
+  [drop,done,shareDlg,hostDlg,leave].forEach(function(d){
+    var b=el("button","xclose","✕"); b.type="button"; b.setAttribute("aria-label","Close");
+    b.addEventListener("click",function(){ d.close(); });
+    d.appendChild(b);
+  });
+
+  /* ---------- boot: load the wall from the server ---------- */
+  var slow=setTimeout(function(){
+    if(!S.gotIdeas) setStatus("Still fetching ideas. If this hangs, check your connection.");
+  },10000);
+  function applyState(d){
+    var seeds=[], mineL=[], others=[], base={}, mu={}, mh={};
+    (d.ideas||[]).forEach(function(it){
+      base[it.id]={u:it.u||0,h:it.h||0,r:0};
+      if(it.myU) mu[it.id]=true;
+      if(it.myH) mh[it.id]=true;
+      (it.seed ? seeds : it.mine ? mineL : others).push(it);
+    });
+    var docs={"offlyn-seeds":seeds,"others":others}; docs[me()]=mineL;
+    S.ideaDocs=docs; S.base=base;
+    S.mine={u:mu,h:mh,r:{}}; S.sent=clone(S.mine);
+    if(d.subscribed) S.subscribed=true;
+    S.gotIdeas=true;
+  }
+  function load(first){
+    return api("GET","/api/state").then(function(r){
+      if(!r.ok || !r.data){
+        if(first){ clearTimeout(slow); S.gotIdeas=true; refresh(false); setStatus("Couldn't load the wall. Refresh the page to try again."); }
+        return;
+      }
+      clearTimeout(slow); setStatus("");
+      applyState(r.data);
+      refresh(first && S.sort==="top");
+    });
+  }
+  refresh(false);
+  load(true);
+  // pick up other people's ideas and votes once a minute, when the tab is in view and nothing is open
+  setInterval(function(){
+    if(document.visibilityState==="visible" && !document.querySelector("dialog[open]") && !checking) load(false);
+  },60000);
+})();
+</script>
 </body>
 </html>
