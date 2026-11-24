@@ -737,6 +737,7 @@ dialog[open]{animation:popin .24s cubic-bezier(.2,.9,.3,1.2)}
 <script>
 /* Settings you may want to change */
 var HTC_CONFIG={
+  api:"https://dashboard.offlyn.club/api/unhinged",
   hostUrl:"https://offlyn.life/events/create",         // where "Create Event" buttons go
   discoverUrl:"https://offlyn.life"                    // where "what's on this week" goes
 };
@@ -814,40 +815,12 @@ var IMG={n_room:"img/n_room.jpg",n_laugh:"img/n_laugh.jpg",n_craft:"img/n_craft.
   function setStatus(msg){ $("status").textContent=msg; }
   function open(d){ if(d.showModal) d.showModal(); else d.setAttribute("open",""); }
   function reduceMotion(){ return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
-  var SEED_IDEAS=["A supper club where nobody is allowed to say what they do for work.", "LinkedIn post roast night. Bring your cringiest \"I'm humbled to announce\".", "A run club that runs 200 metres and then gets dosa.", "Speed dating, but you pitch your single friend. With slides.", "PowerPoint night: defend your worst opinion in 3 minutes.", "Competitive Maggi making. One packet, one burner, total judgement.", "A book club for people who only read the first chapter.", "Traffic appreciation meetup at Silk Board. Bring your own snacks.", "Bad karaoke only. Good singers will be asked to leave.", "Pottery class where you make the ugliest mug and gift it to a stranger.", "A sangeet with no wedding. Just the dancing and the buffet.", "Breakup letter open mic.", "Startup funeral. Bury your dead side project. Eulogies mandatory.", "Nap club. We meet, we sleep, we leave.", "Chai tasting with wine-tasting seriousness. \"Notes of elaichi and regret.\"", "Stranger potluck where everyone brings the one thing their mom makes best.", "Auto fare negotiation workshop. The final exam is live.", "A quiz night where the best wrong answer wins.", "Plant swap for people whose plants are dying. Support group format.", "Board game night, but only Ludo, and it gets personal.", "Sunrise rave. 6 am, filter coffee, home by 9.", "Cry club. Sad movies, tissues provided, no eye contact after.", "Crossword and croissants. No talking till the grid is done.", "A dinner where you can only order for the person on your left.", "Your ex's playlist listening party. No skipping.", "Fake award show for your friend group. The categories get personal.", "A networking event where business cards are banned and oversharing is mandatory.", "Grief circle for people whose sourdough starter died.", "Sunday dread dinner. We eat, we complain about Monday, we go home.", "Unfinished projects show and tell. Bring the guitar you never learned.", "Golgappa eating contest with live commentary.", "Slow walking club. Overtaking is frowned upon.", "A city tour where the guide makes everything up.", "Rooftop screening of everyone's worst college photos.", "Read your teenage diary out loud night.", "Bring your parents to the party. They pick the music.", "Inbox bankruptcy party. We all hit archive together.", "Paper plane championship. Office paper only.", "Blind date with a book. Wrapped books, swapped with strangers.", "Excel art class. Paint a sunset in spreadsheet cells.", "Midnight biryani crawl. Three stops, zero regrets.", "Debate night: is a samosa a sandwich?", "Silent dinner. No phones, no talking, just aggressive eye contact.", "Adult show and tell. Bring the weirdest thing you own.", "Uno tournament where the loser writes the next house rule.", "Monsoon watch party. Chai, pakoras, and the show is the rain.", "Karaoke, but only ad jingles from the 2000s.", "Resume roast. Bring yours, leave humbled.", "A dance class taught by whoever dances worst.", "Gully cricket for people who haven't run since school.", "Founder excuses open mic. \"We're pre-revenue by choice.\"", "Dog birthday party. Humans are plus-ones.", "Antakshari, but it's office teams against each other.", "Bad tattoo pitch night. Temporary ink only.", "Competitive napkin folding. Black tie optional.", "A picnic where everyone brings the same dish by accident, on purpose."];
-  var LOCAL_KEY="htc-local";
-  function emptyLocal(){ return {ideas:[],u:{},h:{},hidden:{}}; }
-  function localData(){ try{ return Object.assign(emptyLocal(), JSON.parse(localStorage.getItem(LOCAL_KEY))||{}); }catch(e){ return emptyLocal(); } }
-  function saveLocal(d){ try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(d)); }catch(e){} }
-  function reply(ok,status,data){ return Promise.resolve({ok:ok,status:status,data:data}); }
-  function withVotes(d,it){ var u=!!d.u[it.id], h=!!d.h[it.id]; return Object.assign({},it,{u:u?1:0,h:h?1:0,myU:u,myH:h}); }
-  function wallState(d){
-    var seeds=SEED_IDEAS.map(function(text,i){ return {id:"seed-"+(i+1),text:text,name:"",net:"ig",handle:"",ts:i+1,seed:true,mine:false}; });
-    var ideas=seeds.concat(d.ideas).filter(function(it){ return !d.hidden[it.id]; }).map(function(it){ return withVotes(d,it); });
-    return {ideas:ideas,subscribed:false};
-  }
-  function pinIdea(d,body){
-    var text=String(body.text||"").replace(/\s+/g," ").trim().slice(0,120);
-    if(text.length<8) return reply(false,422,{error:"Give us a bit more than that. At least 8 characters."});
-    var key=text.toLowerCase();
-    var taken=SEED_IDEAS.concat(d.ideas.map(function(it){ return it.text; })).some(function(t){ return t.toLowerCase()===key; });
-    if(taken) return reply(false,422,{error:"Someone already pinned that exact idea. Great minds."});
-    var idea={id:"local-"+Date.now().toString(36),text:text,name:String(body.name||"").trim().slice(0,30),net:body.net==="x"?"x":"ig",handle:cleanHandle(body.handle),ts:Date.now(),seed:false,mine:true};
-    d.ideas.push(idea); saveLocal(d);
-    return reply(true,201,{idea:withVotes(d,idea)});
-  }
-  function markIdea(d,id,action,body){
-    if(action==="report") d.hidden[id]=true;
-    else { var bag=body.type==="u"?d.u:d.h; if(body.on===false) delete bag[id]; else bag[id]=true; }
-    saveLocal(d);
-    return reply(true,200,{ok:true});
-  }
   function api(method, path, body){
-    var d=localData(), mark=path.match(/^\/api\/ideas\/([^/]+)\/(vote|report)$/);
-    if(method==="GET" && path==="/api/state") return reply(true,200,wallState(d));
-    if(method==="POST" && path==="/api/ideas") return pinIdea(d,body||{});
-    if(method==="POST" && mark) return markIdea(d,decodeURIComponent(mark[1]),mark[2],body||{});
-    return reply(false,0,null);
+    var opt={method:method,credentials:HTC_CONFIG.api?"include":"same-origin",headers:{}};
+    if(body!==undefined){ opt.headers["content-type"]="application/json"; opt.body=JSON.stringify(body); }
+    return fetch(HTC_CONFIG.api+path,opt).then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(data){ return {ok:res.ok,status:res.status,data:data}; });
+    },function(){ return {ok:false,status:0,data:null}; });
   }
   function write(){ return Promise.resolve(false); }
 
@@ -1043,7 +1016,7 @@ var IMG={n_room:"img/n_room.jpg",n_laugh:"img/n_laugh.jpg",n_craft:"img/n_craft.
       Object.keys(ids).forEach(function(id){
         var now=!!S.mine[k][id], was=!!S.sent[k][id];
         if(now===was) return;
-        var p="/api/ideas/"+encodeURIComponent(id);
+        var p="/ideas/"+encodeURIComponent(id);
         if(k==="r"){ if(now) api("POST",p+"/report"); return; }
         var b=S.base[id]=S.base[id]||{u:0,h:0,r:0};
         b[k]=Math.max(0,b[k]+(now?1:-1));
@@ -1219,7 +1192,7 @@ var IMG={n_room:"img/n_room.jpg",n_laugh:"img/n_laugh.jpg",n_craft:"img/n_craft.
     if(hasBadWord(name) || hasBadWord(handle)){ err.textContent="Pick a name and handle you'd be fine seeing on a poster."; return; }
 
     checking=true; btn.disabled=true; btn.textContent="Checking…";
-    api("POST","/api/ideas",{text:text,name:name,net:$("f-x").checked?"x":"ig",handle:handle}).then(function(r){
+    api("POST","/ideas",{text:text,name:name,net:$("f-x").checked?"x":"ig",handle:handle}).then(function(r){
       checking=false; btn.disabled=false; btn.textContent="Pin it";
       if(!r.ok || !r.data || !r.data.idea){
         err.textContent=(r.data && r.data.error) || "That didn't go through. Check your connection and try once more.";
@@ -1357,7 +1330,7 @@ var IMG={n_room:"img/n_room.jpg",n_laugh:"img/n_laugh.jpg",n_craft:"img/n_craft.
   try{ S.subscribed = localStorage.getItem("htc-sub")==="1"; }catch(e){}
   function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
   function saveEmail(email, source){
-    return api("POST","/api/subscribe",{email:email,source:source}).then(function(r){
+    return api("POST","/subscribe",{email:email,source:source}).then(function(r){
       if(r.ok){ S.subscribed=true; try{ localStorage.setItem("htc-sub","1"); }catch(e){} }
       return r.ok;
     });
@@ -1455,7 +1428,7 @@ var IMG={n_room:"img/n_room.jpg",n_laugh:"img/n_laugh.jpg",n_craft:"img/n_craft.
     S.gotIdeas=true;
   }
   function load(first){
-    return api("GET","/api/state").then(function(r){
+    return api("GET","/state").then(function(r){
       if(!r.ok || !r.data){
         if(first){ clearTimeout(slow); S.gotIdeas=true; refresh(false); setStatus("Couldn't load the wall. Refresh the page to try again."); }
         return;
