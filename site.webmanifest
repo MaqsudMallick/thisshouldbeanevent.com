@@ -1,0 +1,12 @@
+{
+  "name": "Host This, Coward by Offlyn",
+  "short_name": "Host This",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ede7ff",
+  "theme_color": "#6d3bfc",
+  "icons": [
+    { "src": "/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/img/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
